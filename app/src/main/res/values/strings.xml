@@ -1,0 +1,26 @@
+<resources>
+    <string name="app_name">TiendApp</string>
+    <string name="title_activity_act__manage__client">Manejo de Clientes</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="Manage_Client">Manejo de Clientes</string>
+    <string name="Manage_message">Administre aquí sus clientes: </string>
+    <string name="Icon">Icon</string>
+    <string name="NewClient">Nuevo Cliente</string>
+    <string name="EditClient">Editar Cliente</string>
+    <string name="DeleteClient">Eliminar Cliente</string>
+    <string name="title_activity_act__new_client">Agregar Nuevo Cliente</string>
+    <string name="name">Nombre: </string>
+    <string name="Enter_here">Ingrese aquí</string>
+    <string name="Reviewing">Revisando...</string>
+    <string name="description">Descripción: </string>
+    <string name="debt">Deuda: </string>
+    <string name="create">Crear Nuevo</string>
+    <string name="zero">0</string>
+    <string name="accepted">Nombre aceptado</string>
+    <string name="already_created">Nombre existente</string>
+    <string name="empty">Campo Vacío</string>
+    <string name="newClientCreated">NUEVO CLIENTE CREADO:</string>
+    <string name="Successfully">CORRECTO! </string>
+</resources>
