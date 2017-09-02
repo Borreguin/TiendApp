@@ -39,10 +39,14 @@ public class Client {
         this.toPay = toPay;
     }
 
-    public Client()
+    public Client(int id, String name, String description, float toPay)
     {
+        this.id=id;
+        this.name=name;
+        this.description=description;
+        this.toPay = toPay;
+        this.toRely = true;
     }
-
     public Client(int id,String name,String description)
     {
         this.id=id;
@@ -52,10 +56,10 @@ public class Client {
         this.toRely = true;
     }
 
-    public Client(String name,String description)
+    public Client()
     {
-        this.name=name;
-        this.description=description;
+        this.name="";
+        this.description="";
         this.toPay= 0;
         this.toRely = true;
     }
@@ -109,5 +113,9 @@ public class Client {
 
     public String getName() {
         return name;
+    }
+
+    public Boolean isEmpty(){
+        return this.getName().isEmpty();
     }
 }

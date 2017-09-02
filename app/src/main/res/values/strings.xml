@@ -23,4 +23,8 @@
     <string name="empty">Campo Vacío</string>
     <string name="newClientCreated">NUEVO CLIENTE CREADO:</string>
     <string name="Successfully">CORRECTO! </string>
+    <string name="search">Buscar</string>
+    <string name="title_activity_search_client">Buscar cliente</string>
+    <string name="searchClient">Buscar Cliente</string>
+    <string name="action_settings">Configuración</string>
 </resources>

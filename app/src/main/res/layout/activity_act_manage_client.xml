@@ -36,6 +36,13 @@
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:text="@string/searchClient"
+            android:onClick="gotoSearchClient"
+            android:id="@+id/btnSearchClient" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:text="@string/EditClient"
             android:id="@+id/btnEditClient" />
 

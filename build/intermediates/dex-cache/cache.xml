@@ -7,7 +7,7 @@
         jumboMode="true"
         optimize="true"
         revision="26.0.1"
-        sha1="287bcfd45b659f59d42241b82257cc9012f90b29">
+        sha1="d3772316da929a69c04bcf3eee7278c9d7d6a75f">
         <dex dex="C:\Repositorios\TiendApp\app\build\intermediates\transforms\dex\debug\folders\1000\10000\instant-run-bootstrap_bbb13645b03ad14120eead1d88db3411975333d9\classes.dex" />
     </item>
     <item
@@ -27,6 +27,24 @@
         revision="26.0.1"
         sha1="efb8cb62d47d157c29d1521daac7eefd4cb881ee">
         <dex dex="C:\Repositorios\TiendApp\app\build\intermediates\pre-dexed\debug\classes_bcbd8255ad9588948f881433a30e16c277e535c2.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Roberto\.android\build-cache\d9f94a6305671783dece1e114863372e4161753e\output\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.1"
+        sha1="38789e20ace9ab7dbd00554bd2673ab424478d3b">
+        <dex dex="C:\Repositorios\TiendApp\app\build\intermediates\pre-dexed\debug\classes_2aaad84f2fac690418d86be4fb62b586cdbdfea3.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Roberto\.android\build-cache\bd74afc450df7049bdfb4033454ef9692a10f13a\output\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.1"
+        sha1="d4cf6227dd6a2ceff0f7dcf0c324380b7abf2c28">
+        <dex dex="C:\Repositorios\TiendApp\app\build\intermediates\pre-dexed\debug\classes_8136d73f7309471e11b1b026c6026c869113f382.jar" />
     </item>
     <item
         is-multidex="false"
@@ -63,6 +81,15 @@
         revision="26.0.1"
         sha1="45f697922e6f072daa12f8a2995dc77ab03c11da">
         <dex dex="C:\Repositorios\TiendApp\app\build\intermediates\pre-dexed\debug\classes_6aa156f18f54d11932c38bbc33ae63b5f17fddf8.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Roberto\.android\build-cache\dcfa80f05992077e70ea6f4dea73c8b72f687986\output\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.1"
+        sha1="95519720620b553f63afc789beba9ad582807f7c">
+        <dex dex="C:\Repositorios\TiendApp\app\build\intermediates\pre-dexed\debug\classes_072414e3303ead16c9f4e093cd20c7ea5ee81fae.jar" />
     </item>
     <item
         is-multidex="false"

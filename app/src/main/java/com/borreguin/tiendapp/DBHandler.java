@@ -98,6 +98,11 @@ public class DBHandler extends SQLiteOpenHelper {
         if (cursor != null)
             cursor.moveToFirst();
 
+        if (cursor.getCount() == 0){
+            return new Client();
+        }
+
+
         Client contact = new Client(
                 Integer.parseInt(cursor.getString(Idx_id_0)),
                 cursor.getString(Idx_name_1),

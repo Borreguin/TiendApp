@@ -9,6 +9,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <!--Search application -->
+        <meta-data android:name="android.app.searchable"
+            android:resource="@xml/searchable"/>
+        <!--Search application -->
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -31,6 +35,14 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.borreguin.tiendapp.Act_Manage_Client" />
+        </activity>
+        <activity
+            android:name=".Act_SearchClient"
+            android:label="@string/searchClient"
+            android:parentActivityName=".Act_Manage_Client"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data android:name="android.app.searchable"
+                android:resource="@xml/searchable"/>
         </activity>
     </application>
 

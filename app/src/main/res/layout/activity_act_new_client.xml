@@ -44,15 +44,29 @@
                 android:layout_marginBottom="2dp"
                 android:checkMark="@drawable/checked_20"/>
 
-            <EditText
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/Enter_here"
-                android:layout_marginLeft="@dimen/activity_vertical_margin"
-                android:layout_marginRight="@dimen/activity_vertical_margin"
-                android:textSize="18sp"
-                android:id="@+id/clientName"
-                />
+                android:layout_height="match_parent">
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/Enter_here"
+                    android:layout_marginLeft="@dimen/activity_vertical_margin"
+                    android:layout_marginRight="@dimen/activity_vertical_margin"
+                    android:textSize="18sp"
+                    android:id="@+id/clientName"
+                    />
+
+                <Button
+                    android:layout_width="42dp"
+                    android:layout_height="42dp"
+                    android:textSize="17sp"
+                    android:layout_alignRight="@+id/clientName"
+                    android:background="@android:drawable/ic_menu_delete"
+                    android:onClick="clean_clientName"/>
+
+            </RelativeLayout>
 
             <TextView
                 android:id="@+id/description"
@@ -66,15 +80,31 @@
                 android:textStyle="bold"
                 android:text="@string/description" />
 
-            <EditText
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/Enter_here"
-                android:layout_marginLeft="@dimen/activity_vertical_margin"
-                android:layout_marginRight="@dimen/activity_vertical_margin"
-                android:textSize="18sp"
-                android:id="@+id/clientDescription"
-                />
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/Enter_here"
+                    android:layout_marginLeft="@dimen/activity_vertical_margin"
+                    android:layout_marginRight="@dimen/activity_vertical_margin"
+                    android:textSize="18sp"
+                    android:id="@+id/clientDescription"
+                    />
+
+                <Button
+                    android:layout_width="42dp"
+                    android:layout_height="42dp"
+                    android:text=""
+                    android:textSize="10sp"
+                    android:background="@android:drawable/ic_menu_delete"
+                    android:layout_alignRight="@+id/clientDescription"
+                    android:onClick="clean_description"/>
+
+            </RelativeLayout>
+
 
             <TextView
                 android:id="@+id/debt"
@@ -104,6 +134,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
                 android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:layout_marginTop="20dp"
                 android:text="@string/create"
                 android:onClick="addNewClient"
                 android:textSize="19sp"
@@ -111,16 +142,19 @@
 
                 />
 
-            <SearchView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-            <ListView
-                android:id="@+id/lstView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
 
-            </ListView>
-
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/searchClient"
+                android:layout_gravity="bottom"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                android:onClick="gotoSearchClient"
+                android:textSize="19sp"
+                android:id="@+id/btnSearchClient" />
 
             <android.support.design.widget.BottomNavigationView
                 android:id="@+id/navigation"
@@ -129,8 +163,6 @@
                 android:layout_gravity="bottom"
                 android:background="?android:attr/windowBackground"
                 app:menu="@menu/navigation" />
-
-
         </LinearLayout>
 
     </ScrollView>

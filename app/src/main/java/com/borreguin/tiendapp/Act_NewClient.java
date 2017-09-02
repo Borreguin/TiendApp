@@ -1,5 +1,7 @@
 package com.borreguin.tiendapp;
 
+
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -11,16 +13,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckedTextView;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.SearchView;
-
 import com.borreguin.tiendapp.Class.Client;
-
 import java.util.List;
 
-public class Act_NewClient extends AppCompatActivity implements SearchView.OnQueryTextListener, SearchView.OnClickListener{
+public class Act_NewClient extends AppCompatActivity {
 
     private TextView mTextMessage;
     private CheckedTextView checkText;
@@ -32,9 +30,11 @@ public class Act_NewClient extends AppCompatActivity implements SearchView.OnQue
 
     //private Client SelectedClient;
     Button btnNewClient;
+    Button btnSearchClient;
 
-    // searching a client
-    // private ListView lstView;
+    // NOTE: Test User or Temporal id=0
+    final String prefix = "#TEMP_";
+    final int id_temp = 1;
 
     // Validating a new client
     private TextWatcher textWatcher = new TextWatcher() {
@@ -53,7 +53,7 @@ public class Act_NewClient extends AppCompatActivity implements SearchView.OnQue
             checkClient(clients,clientName.getText().toString());
         }
     };
-
+    // Navigation Menu
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
@@ -102,21 +102,18 @@ public class Act_NewClient extends AppCompatActivity implements SearchView.OnQue
         checkText = (CheckedTextView)findViewById(R.id.checkText);
         checkText.setCheckMarkDrawable(R.drawable.empty);
 
-        //***************************************************
+        //***************CREATE BUTTONS****************
         btnNewClient = (Button)findViewById(R.id.btnNewClient);
-        //lstView = (ListView)findViewById(R.id.lstView);
-       /* lstView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                SelectedClient = clients.get(position);
-                //set text to edit text
-                //edtUser.setText(SelectedClient.getName());
-            }
-        });*/
+        btnSearchClient = (Button)findViewById(R.id.btnSearchClient);
+        //***************************************************
+
+        isThereTemporalClient();
 
     }
 
+    // check if the user is already created
     public void checkClient(List<Client> clients, String NameClient){
+
         Boolean Found = false;
 
         if(NameClient.isEmpty()){
@@ -125,6 +122,8 @@ public class Act_NewClient extends AppCompatActivity implements SearchView.OnQue
             checkText.setText(R.string.empty);
             return;
         }
+
+        // Check if the user is already created
         String NameClient_ax = NameClient.replace(" ", "").toLowerCase();
         for(Client client : clients){
             String client_ax = client.getName().replace(" ", "").toLowerCase();
@@ -133,6 +132,7 @@ public class Act_NewClient extends AppCompatActivity implements SearchView.OnQue
                 Found = true;
             }
         }
+
         if(Found){
             checkText.setCheckMarkDrawable(R.drawable.wrong);
             checkText.setChecked(false);
@@ -144,10 +144,10 @@ public class Act_NewClient extends AppCompatActivity implements SearchView.OnQue
         }
     }
 
-
-
-
     public void addNewClient(View view) {
+
+        checkClient(clients,clientName.getText().toString());
+
         if(clientName.getText().length() == 0){
             Toast.makeText(Act_NewClient.this,
                     getString(R.string.NewClient) + " " +
@@ -175,21 +175,87 @@ public class Act_NewClient extends AppCompatActivity implements SearchView.OnQue
                             clientName.getText() , Toast.LENGTH_LONG);
             message.setGravity(0,0,0);
             message.show();
+
+            checkText.setCheckMarkDrawable(R.drawable.ok);
+            checkText.setChecked(false);
+            checkText.setText(getString(R.string.Successfully) + " "
+                    + getString(R.string.NewClient) + clientName.getText());
+            cleanTemporalClient();
+        }
+    }
+/*
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putBoolean("isCheck",checkText.isChecked());
+        outState.putString("checkText",checkText.getText().toString());
+        outState.putString("clientName",clientName.getText().toString());
+        outState.putString("description", description.getText().toString());
+        outState.putString("debt", clientDebt.getText().toString());
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        checkText.setChecked(savedInstanceState.getBoolean("isCheck"));
+        checkText.setText(savedInstanceState.getString("checkText"));
+        clientName.setText(savedInstanceState.getString("clientName"));
+        description.setText(savedInstanceState.getString("description"));
+        clientDebt.setText("debt");
+    }*/
+
+    // Buttons for navigation:
+    public void gotoSearchClient(View view){
+        Intent NextPage = new Intent(Act_NewClient.this, Act_SearchClient.class);
+        startActivity(NextPage);
+    };
+
+    @Override
+    protected void onStop() {
+        saveTemporalClient();
+        super.onStop();
+    }
+
+    // Create temporal client for testing or any other purpose
+    public void saveTemporalClient(){
+
+        Client temporalClient = new Client(id_temp,
+                prefix + clientName.getText().toString(),
+                description.getText().toString(),
+                Float.parseFloat(clientDebt.getText().toString()));
+        db.updateClient(temporalClient);
+        db.close();
+    }
+    public void cleanTemporalClient(){
+
+        Client temporalClient = new Client(id_temp, prefix + "", "", 0);
+        db.updateClient(temporalClient);
+        db.close();
+    }
+
+    public Boolean isThereTemporalClient() {
+        Client tempClient = db.getClient(id_temp);
+        if (tempClient.isEmpty()) {
+            db.addClient(new Client(0, prefix, ""));
+            return false;
+        }
+
+        if (tempClient.getName().equals(prefix)) {
+            return false;
+        }
+        else {
+            clientName.setText(tempClient.getName().replace(prefix, ""));
+            description.setText(tempClient.getDescription());
+            clientDebt.setText(String.valueOf(tempClient.getToPay()));
+            return true;
         }
     }
 
-    @Override
-    public void onClick(View v) {
-
+    public void clean_clientName(View view){
+        clientName.setText("");
+    }
+    public void clean_description(View view){
+        description.setText("");
     }
 
-    @Override
-    public boolean onQueryTextSubmit(String query) {
-        return false;
-    }
-
-    @Override
-    public boolean onQueryTextChange(String newText) {
-        return false;
-    }
 }
