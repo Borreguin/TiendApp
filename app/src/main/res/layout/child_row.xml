@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:context="com.borreguin.tiendapp.Act_SearchClient">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -12,6 +14,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
+            android:background="@mipmap/generic_icon"
             android:id="@+id/child_icon" />
 
         <TextView
@@ -26,6 +29,22 @@
             android:text="@string/name"
             android:textAppearance="?android:textAppearanceMedium"
             />
+
+        <Button
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginLeft="20dp"
+            android:id="@+id/btnDeleteClient"
+            android:background="@drawable/trash_20"/>
+
+
+        <Button
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_toLeftOf="@+id/btnDeleteClient"
+            android:background="@drawable/edit_20"
+            android:id="@+id/editClient"/>
 
     </RelativeLayout>
 </ScrollView>

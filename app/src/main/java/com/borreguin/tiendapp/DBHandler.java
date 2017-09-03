@@ -7,9 +7,11 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.borreguin.tiendapp.Class.Client;
+import com.borreguin.tiendapp.Class.Global;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.StringTokenizer;
 
 /**
  * Created by Roberto on 8/29/2017.
@@ -18,13 +20,14 @@ import java.util.List;
 
 public class DBHandler extends SQLiteOpenHelper {
     // Database Version
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
 
     // Database Name
     private static final String DATABASE_NAME = "DB_clientsInfo";
 
-    // Contacts table name
+    // Table names
     private static final String TABLE_CLIENTS = "tb_clients";
+    private static final String TABLE_METADATA = "tb_metadata";
 
     // Clients Table Columns names
     private static final String KEY_ID = "id";
@@ -33,6 +36,8 @@ public class DBHandler extends SQLiteOpenHelper {
     private static final String KEY_ToPAY = "toPay";
     private static final String KEY_ToRELY = "toRely";
 
+    // Clients Capital Name
+    private static final String KEY_MEMBER = "c_letters";
 
     // Id for getting values in string constructor
     private static final int Idx_id_0 = 0, Idx_name_1 = 1, Idx_dscrp_2 = 2,
@@ -43,8 +48,12 @@ public class DBHandler extends SQLiteOpenHelper {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
+    // Global values
+    Global global;
     @Override
     public void onCreate(SQLiteDatabase db) {
+
+        // TABLE OF CLIENTS
         String CREATE_CONTACTS_TABLE = "CREATE TABLE " + TABLE_CLIENTS + "("
                 + KEY_ID + " INTEGER PRIMARY KEY,"
                 + KEY_NAME + " TEXT,"
@@ -62,6 +71,18 @@ public class DBHandler extends SQLiteOpenHelper {
          */
 
         db.execSQL(CREATE_CONTACTS_TABLE);
+
+        // TABLE CAPITAL_CLIENTS
+        String CREATE_CAPITAL_CLIENTS = "CREATE TABLE " + TABLE_METADATA + "("
+                + KEY_ID + " STRING PRIMARY KEY,"
+                + KEY_MEMBER + " STRING"
+                + ")";
+        /*                  TYPE        Primary     Description
+            ID:             text     yes         ID del member
+            member:         text                    member document
+         */
+        db.execSQL(CREATE_CAPITAL_CLIENTS);
+
     }
 
     @Override
@@ -84,7 +105,8 @@ public class DBHandler extends SQLiteOpenHelper {
 
         // Inserting Row
         db.insert(TABLE_CLIENTS, null, values);
-        db.close(); // Closing database connection
+        // Closing database connection
+        db.close();
     }
 
     // Getting one client
@@ -115,6 +137,33 @@ public class DBHandler extends SQLiteOpenHelper {
         return contact;
     }
 
+    public Client getClient(String ClientName) {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.query(TABLE_CLIENTS, new String[]{KEY_ID,
+                        KEY_NAME, KEY_DSCRP, KEY_ToPAY, KEY_ToRELY},
+                KEY_NAME + "=?",
+                new String[]{ClientName}, null, null, null, null);
+        if (cursor != null)
+            cursor.moveToFirst();
+
+        if (cursor.getCount() == 0){
+            return new Client();
+        }
+
+        Client contact = new Client(
+                Integer.parseInt(cursor.getString(Idx_id_0)),
+                cursor.getString(Idx_name_1),
+                cursor.getString(Idx_dscrp_2),
+                Float.parseFloat(cursor.getString(Idx_toPay_3)),
+                Integer.parseInt(cursor.getString(Idx_toRely_4)));
+
+        cursor.close();
+        // return client
+        return contact;
+    }
+
+
     // Getting All Clients
     public List<Client> getAllClients() {
         List<Client> clientList = new ArrayList<Client>();
@@ -124,6 +173,10 @@ public class DBHandler extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
 
+        if(cursor.getCount()==0){
+            clientList.add(new Client(global.id_temp, global.prefix + "", "", 0));
+            return clientList;
+        }
         // looping through all rows and adding to list
         if (cursor.moveToFirst()) {
             do {

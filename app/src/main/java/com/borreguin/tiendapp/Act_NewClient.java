@@ -16,6 +16,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.borreguin.tiendapp.Class.Client;
+import com.borreguin.tiendapp.Class.Global;
+
 import java.util.List;
 
 public class Act_NewClient extends AppCompatActivity {
@@ -31,10 +33,8 @@ public class Act_NewClient extends AppCompatActivity {
     //private Client SelectedClient;
     Button btnNewClient;
     Button btnSearchClient;
+    Global global = new Global();
 
-    // NOTE: Test User or Temporal id=0
-    final String prefix = "#TEMP_";
-    final int id_temp = 1;
 
     // Validating a new client
     private TextWatcher textWatcher = new TextWatcher() {
@@ -77,7 +77,7 @@ public class Act_NewClient extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_act_new_client);
         // PART OF THE MENU
         // ------------------------------------------------
@@ -108,7 +108,7 @@ public class Act_NewClient extends AppCompatActivity {
         //***************************************************
 
         isThereTemporalClient();
-
+        super.onCreate(savedInstanceState);
     }
 
     // check if the user is already created
@@ -171,7 +171,7 @@ public class Act_NewClient extends AppCompatActivity {
 
             Toast message = Toast.makeText(Act_NewClient.this,
                     getString(R.string.Successfully) + "\n" +
-                    getString(R.string.newClientCreated) + "\n" +
+                    getString(R.string.newClientCreated) + "\t" +
                             clientName.getText() , Toast.LENGTH_LONG);
             message.setGravity(0,0,0);
             message.show();
@@ -179,7 +179,7 @@ public class Act_NewClient extends AppCompatActivity {
             checkText.setCheckMarkDrawable(R.drawable.ok);
             checkText.setChecked(false);
             checkText.setText(getString(R.string.Successfully) + " "
-                    + getString(R.string.NewClient) + clientName.getText());
+                    + getString(R.string.NewClient) + "\n" +clientName.getText());
             cleanTemporalClient();
         }
     }
@@ -206,9 +206,8 @@ public class Act_NewClient extends AppCompatActivity {
 
     // Buttons for navigation:
     public void gotoSearchClient(View view){
-        Intent NextPage = new Intent(Act_NewClient.this, Act_SearchClient.class);
-        startActivity(NextPage);
-    };
+        global.goto_SearchClient(view);
+    }
 
     @Override
     protected void onStop() {
@@ -219,8 +218,8 @@ public class Act_NewClient extends AppCompatActivity {
     // Create temporal client for testing or any other purpose
     public void saveTemporalClient(){
 
-        Client temporalClient = new Client(id_temp,
-                prefix + clientName.getText().toString(),
+        Client temporalClient = new Client( global.id_temp,
+                global.prefix + clientName.getText().toString(),
                 description.getText().toString(),
                 Float.parseFloat(clientDebt.getText().toString()));
         db.updateClient(temporalClient);
@@ -228,23 +227,24 @@ public class Act_NewClient extends AppCompatActivity {
     }
     public void cleanTemporalClient(){
 
-        Client temporalClient = new Client(id_temp, prefix + "", "", 0);
+        Client temporalClient = new Client(global.id_temp, global.prefix + "", "", 0);
         db.updateClient(temporalClient);
         db.close();
     }
 
     public Boolean isThereTemporalClient() {
-        Client tempClient = db.getClient(id_temp);
+        int fg =  global.id_temp;
+        Client tempClient = db.getClient(global.id_temp);
         if (tempClient.isEmpty()) {
-            db.addClient(new Client(0, prefix, ""));
+            db.addClient(new Client(0, global.prefix, ""));
             return false;
         }
 
-        if (tempClient.getName().equals(prefix)) {
+        if (tempClient.getName().equals(global.prefix)) {
             return false;
         }
         else {
-            clientName.setText(tempClient.getName().replace(prefix, ""));
+            clientName.setText(tempClient.getName().replace(global.prefix, ""));
             description.setText(tempClient.getDescription());
             clientDebt.setText(String.valueOf(tempClient.getToPay()));
             return true;

@@ -5,8 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
-    tools:context="com.borreguin.tiendapp.MainActivity">
+    tools:context="com.borreguin.tiendapp.Act_SearchClient">
 
     <GridView
        android:numColumns="auto_fit"

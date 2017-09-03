@@ -1,12 +1,11 @@
 package com.borreguin.tiendapp;
 
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
+
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
+
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -84,20 +83,21 @@ public class Act_Manage_Client extends AppCompatActivity {
     }
 
     // Buttons for navigation:
-    public void gotoNewClient(View view){
-        Intent NextPage = new Intent(Act_Manage_Client.this, Act_NewClient.class);
-        startActivity(NextPage);
+
+    /*public void gotoNewClient(View view){
+       // Intent NextPage = new Intent(Act_Manage_Client.this, Act_NewClient.class);
+       // startActivity(NextPage);
     };
     public void gotoSearchClient(View view){
-        Intent NextPage = new Intent(Act_Manage_Client.this, Act_SearchClient.class);
-        startActivity(NextPage);
+        //Intent NextPage = new Intent(Act_Manage_Client.this, Act_SearchClient.class);
+        //startActivity(NextPage);
     };
     public void gotoEditClient(){
 
     }
     public void gotoDeleteClient(){
 
-    }
+    }*/
 
 
 }

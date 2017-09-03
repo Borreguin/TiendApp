@@ -1,14 +1,20 @@
 package com.borreguin.tiendapp.Utilities;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.borreguin.tiendapp.Act_Delete_Client;
+import com.borreguin.tiendapp.Class.Client;
+import com.borreguin.tiendapp.DBHandler;
 import com.borreguin.tiendapp.R;
 
 import java.util.ArrayList;
@@ -24,6 +30,7 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
     private Context context;
     private ArrayList<ParentRow> parentRowList;
     private ArrayList<ParentRow> originalList;
+    private Intent NextPage;
 
     public MyExpandableListAdapter(Context context
             , ArrayList<ParentRow> originalList) {
@@ -86,7 +93,8 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
     }
 
     @Override
-    public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
+    public View getChildView(int groupPosition, int childPosition,
+                             boolean isLastChild, View convertView, ViewGroup parent) {
         ChildRow childRow = (ChildRow) getChild(groupPosition, childPosition);
         if (convertView == null) {
             LayoutInflater layoutInflater = (LayoutInflater)
@@ -108,6 +116,20 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
                         , childText.getText()
                         , Toast.LENGTH_SHORT).show();
             }
+        });
+
+        final Button deleteClient = (Button) convertView.findViewById(R.id.btnDeleteClient);
+        deleteClient.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v){
+                Toast.makeText(finalConvertView.getContext()
+                        , "delete " + childText.getText()
+                        , Toast.LENGTH_SHORT).show();
+                gotoDeleteClient(v, childText.getText().toString());
+
+            }
+
         });
 
         return convertView;
@@ -143,5 +165,25 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
         } // end else
 
         notifyDataSetChanged();
+    }
+
+    public void gotoDeleteClient(View v, String childText){
+
+        // Pass information to the next view:
+        NextPage = new Intent(context, Act_Delete_Client.class);
+
+        //Create the bundle
+        Bundle bundle = new Bundle();
+
+        //Adding data to bundle
+        bundle.putString("NameClient",childText);
+
+        //Add the bundle to the intent
+        NextPage.putExtras(bundle);
+
+
+
+        //Fire that second activity
+        context.startActivity(NextPage);
     }
 }

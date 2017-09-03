@@ -9,6 +9,7 @@ import android.widget.GridView;
 import android.widget.Toast;
 
 import com.borreguin.tiendapp.Class.Client;
+import com.borreguin.tiendapp.Class.Global;
 import com.borreguin.tiendapp.Utilities.App_icon;
 import com.borreguin.tiendapp.Utilities.CustomGrid;
 
@@ -20,7 +21,10 @@ public class MainActivity extends AppCompatActivity {
     App_icon app_icon;
     String[] web;
     int[] imageId;
+    View view ;
 
+    // global constants and functions
+    Global global = new Global();
 
     // Button btn_manage_client;
     @Override
@@ -61,18 +65,22 @@ public class MainActivity extends AppCompatActivity {
     }
     public void gotoNewActivity(int activity_view){
 
+        Intent NextPage;
+        view = new View(this);
         switch (activity_view){
             case 0:
                 break;
             case 1:
                 break;
+
+            // Search Clients
             case 2:
+                global.goto_SearchClient(view);
                 break;
 
-            // Manage of Clients
+            // Create Clients
             case 3:
-                Intent NextPage = new Intent(MainActivity.this, Act_Manage_Client.class);
-                startActivity(NextPage);
+                global.goto_CreateClient(view);
                 break;
         }
 
