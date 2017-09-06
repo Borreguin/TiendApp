@@ -55,6 +55,24 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.borreguin.tiendapp.MainActivity" />
         </activity>
+        <activity
+            android:name=".Act_Edit_client"
+            android:label="@string/title_activity_act_edit_client"
+            android:parentActivityName=".Act_SearchClient"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.borreguin.tiendapp.Act_SearchClient" />
+        </activity>
+        <activity
+            android:name=".Act_ClientDetails"
+            android:label="@string/title_activity_act__client_details"
+            android:parentActivityName=".Act_SearchClient"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.borreguin.tiendapp.Act_SearchClient" />
+        </activity>
     </application>
 
 </manifest>

@@ -12,19 +12,22 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ExpandableListView;
 import android.widget.SearchView;
 
 import com.borreguin.tiendapp.Class.Client;
-import com.borreguin.tiendapp.Class.Global;
+import com.borreguin.tiendapp.DB_Handlers.DBHandler_Clients;
 import com.borreguin.tiendapp.Utilities.ChildRow;
-import com.borreguin.tiendapp.Utilities.MyExpandableListAdapter;
+import com.borreguin.tiendapp.Utilities.ClientListAdapter;
 import com.borreguin.tiendapp.Utilities.ParentRow;
 
-import java.io.IOError;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.SortedSet;
+import java.util.TreeSet;
+
 
 public class Act_SearchClient extends AppCompatActivity
         implements SearchView.OnQueryTextListener, SearchView.OnClickListener{
@@ -32,17 +35,17 @@ public class Act_SearchClient extends AppCompatActivity
     // Search list:
     private SearchManager searchManager;
     private android.widget.SearchView searchView;
-    private MyExpandableListAdapter listAdapter;
+    private ClientListAdapter listAdapter;
     private ExpandableListView myList;
     private ArrayList<ParentRow> parentList = new ArrayList<ParentRow>();
     private ArrayList<ParentRow> showTheseParentList = new ArrayList<ParentRow>();
     private MenuItem searchItem;
     // Manage of clients
-    private DBHandler db = new DBHandler(this);
+    private DBHandler_Clients db = new DBHandler_Clients(this);
 
     //Data of clients
     private List<Client> clients;
-
+    private SortedSet capLetters = new TreeSet<>();
 
 
     @Override
@@ -80,27 +83,75 @@ public class Act_SearchClient extends AppCompatActivity
         super.onCreate(savedInstanceState);
     }
 
+
+
+    // Consulta la base de datos de los usuarios
+    // Permite la organizacion de manera alfabetica
     private void loadData(){
-        // Structure for search list
-        ArrayList<ChildRow> childRows = new ArrayList<ChildRow>();
+        // mapping letters and positions
+        Map<Character, Integer> map_KV = new HashMap<Character, Integer>();
+        char letter;
+        int idx = 0;
+
+        // Data from DataBase
+        clients = db.getAllClients();
+        if(clients.size() ==0 ){return;}
+
+        // Id = 0 is a client for testing
+        clients.remove(0);
+
+        // Obtaining the capital letter for each name
+        for(Client client : clients){
+            letter = client.getName().charAt(0);
+            capLetters.add(Character.toUpperCase(letter));
+        }
+
+        for(Object capLetter : capLetters){
+            map_KV.put((Character) capLetter,idx);
+            idx++;
+        }
+
+        // Structure for search list for each capital letter
+        ArrayList<ChildRow>[] childRows = (ArrayList<ChildRow>[])new ArrayList[capLetters.size()+1];
         ParentRow parentRow = null;
 
-        // Data
-        clients = db.getAllClients();
-        clients.remove(0);
-        // Adding members
-        for(Client client : clients){
-            childRows.add(new ChildRow(R.mipmap.generic_icon, client.getName()));
+        for(int idx_x=0;idx_x<capLetters.size();idx_x++){
+            childRows[idx_x] = new ArrayList<ChildRow>();
         }
-        parentRow = new ParentRow("First Group",childRows);
-        parentList.add(parentRow);
 
-        //
+        for(Client client : clients){
+            letter = client.getName().charAt(0);
+            idx =  map_KV.get(Character.toUpperCase(letter));
+            childRows[idx].add(new ChildRow(
+                    R.mipmap.generic_icon,  // Client icon
+                    client.getName(),       // Name client
+                    String.valueOf(client.getToPay()),  //Debt to pay
+                    client.isToRely()) //is rely?);
+            );
+        }
+
+        int idx_x = 0;
+        for(Object capLetter : capLetters){
+            parentRow = new ParentRow(capLetter.toString(),childRows[idx_x++]);
+            parentList.add(parentRow);
+        }
+
+/*
+            // Adding members
+            for(Client client : clients){
+                childRows[0].add(new ChildRow(
+                        R.mipmap.generic_icon,  // Client icon
+                        client.getName(),       // Name client
+                        String.valueOf(client.getToPay()),  //Debt to pay
+                        client.isToRely())   //is rely?
+                );
+            }
         childRows = new ArrayList<ChildRow>();
         childRows.add(new ChildRow(R.mipmap.generic_icon, "icon 5"));
         childRows.add(new ChildRow(R.mipmap.generic_icon, "icon 6"));
         parentRow = new ParentRow("Second Group",childRows);
         parentList.add(parentRow);
+*/
 
     }
 
@@ -113,7 +164,7 @@ public class Act_SearchClient extends AppCompatActivity
 
     private void displayList(){
         loadData();
-        listAdapter = new MyExpandableListAdapter(Act_SearchClient.this, parentList);
+        listAdapter = new ClientListAdapter(Act_SearchClient.this, parentList);
         myList = (ExpandableListView) findViewById(R.id.expListView);
         myList.setAdapter(listAdapter);
     }

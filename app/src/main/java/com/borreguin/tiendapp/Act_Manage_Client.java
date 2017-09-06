@@ -58,7 +58,7 @@ public class Act_Manage_Client extends AppCompatActivity {
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);*/
 
        /*
-        DBHandler db = new DBHandler(this);
+        DBHandler_Clients db = new DBHandler_Clients(this);
 
         // Inserting Client/Rows
         Log.d("Insert: ", "Inserting ..");

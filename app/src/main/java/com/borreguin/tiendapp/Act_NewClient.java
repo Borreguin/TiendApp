@@ -17,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.borreguin.tiendapp.Class.Client;
 import com.borreguin.tiendapp.Class.Global;
+import com.borreguin.tiendapp.DB_Handlers.DBHandler_Clients;
 
 import java.util.List;
 
@@ -28,7 +29,7 @@ public class Act_NewClient extends AppCompatActivity {
     private EditText clientName;
     private EditText description;
     private EditText clientDebt;
-    private DBHandler db = new DBHandler(this);
+    private DBHandler_Clients db = new DBHandler_Clients(this);
 
     //private Client SelectedClient;
     Button btnNewClient;
@@ -87,6 +88,7 @@ public class Act_NewClient extends AppCompatActivity {
         // -------------------------------------------------
         // Read all clients:
 
+        // db.addClient(new Client("ya pues", ""));
         clients = db.getAllClients();
         db.close();
         //**************************************************
@@ -160,83 +162,62 @@ public class Act_NewClient extends AppCompatActivity {
                     clientName.getText(), Toast.LENGTH_LONG).show();
         }else{
 
-            db.addClient(new Client(clientName.getText().toString(),
+            db.addClient(new Client(clientName.getText().toString().trim(),
                     description.getText().toString(),
                     Float.parseFloat(clientDebt.getText().toString())));
-            // update the list before closing DB
-                clients = db.getAllClients();
-                checkClient(clients,clientName.getText().toString());
 
-            db.close();
+            cleanTemporalClient();
 
             Toast message = Toast.makeText(Act_NewClient.this,
                     getString(R.string.Successfully) + "\n" +
                     getString(R.string.newClientCreated) + "\t" +
                             clientName.getText() , Toast.LENGTH_LONG);
-            message.setGravity(0,0,0);
+            message.setGravity(0, 0, -140);
             message.show();
 
             checkText.setCheckMarkDrawable(R.drawable.ok);
             checkText.setChecked(false);
             checkText.setText(getString(R.string.Successfully) + " "
                     + getString(R.string.NewClient) + "\n" +clientName.getText());
-            cleanTemporalClient();
+
+            db.close();
+            // got to the main activity
+            global.goto_MainMenu(view);
         }
     }
-/*
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putBoolean("isCheck",checkText.isChecked());
-        outState.putString("checkText",checkText.getText().toString());
-        outState.putString("clientName",clientName.getText().toString());
-        outState.putString("description", description.getText().toString());
-        outState.putString("debt", clientDebt.getText().toString());
-    }
 
-    @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-        checkText.setChecked(savedInstanceState.getBoolean("isCheck"));
-        checkText.setText(savedInstanceState.getString("checkText"));
-        clientName.setText(savedInstanceState.getString("clientName"));
-        description.setText(savedInstanceState.getString("description"));
-        clientDebt.setText("debt");
-    }*/
 
     // Buttons for navigation:
     public void gotoSearchClient(View view){
+        saveTemporalClient();
         global.goto_SearchClient(view);
     }
 
-    @Override
-    protected void onStop() {
-        saveTemporalClient();
-        super.onStop();
-    }
+
 
     // Create temporal client for testing or any other purpose
     public void saveTemporalClient(){
 
-        Client temporalClient = new Client( global.id_temp,
+       Client temporalClient = new Client( global.id_temp,
                 global.prefix + clientName.getText().toString(),
                 description.getText().toString(),
                 Float.parseFloat(clientDebt.getText().toString()));
         db.updateClient(temporalClient);
+        clients = db.getAllClients();
         db.close();
     }
+
     public void cleanTemporalClient(){
 
         Client temporalClient = new Client(global.id_temp, global.prefix + "", "", 0);
         db.updateClient(temporalClient);
-        db.close();
     }
 
     public Boolean isThereTemporalClient() {
-        int fg =  global.id_temp;
+
         Client tempClient = db.getClient(global.id_temp);
         if (tempClient.isEmpty()) {
-            db.addClient(new Client(0, global.prefix, ""));
+            db.addClient(new Client(global.id_temp, global.prefix, "", 0));
             return false;
         }
 
@@ -257,5 +238,6 @@ public class Act_NewClient extends AppCompatActivity {
     public void clean_description(View view){
         description.setText("");
     }
+    public void clean_debt(View view){clientDebt.setText("0");}
 
 }

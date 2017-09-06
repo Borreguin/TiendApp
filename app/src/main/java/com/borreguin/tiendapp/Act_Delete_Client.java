@@ -1,6 +1,5 @@
 package com.borreguin.tiendapp;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -12,18 +11,18 @@ import android.widget.TextView;
 
 import com.borreguin.tiendapp.Class.Client;
 import com.borreguin.tiendapp.Class.Global;
-
-import static java.util.logging.Logger.global;
+import com.borreguin.tiendapp.DB_Handlers.DBHandler_Clients;
 
 public class Act_Delete_Client extends AppCompatActivity {
 
     private TextView mTextMessage;
     private Button btnDeleteClient;
     private Button btnSearchClient;
+    private Button btnCancel;
     private TextView clientName;
     private TextView description;
     private TextView clientDebt;
-    private DBHandler db = new DBHandler(this);
+    private DBHandler_Clients db = new DBHandler_Clients(this);
 
     private Client tempClient;
 
@@ -57,6 +56,7 @@ public class Act_Delete_Client extends AppCompatActivity {
         setContentView(R.layout.activity_act_delete_client);
         btnDeleteClient = (Button)findViewById(R.id.btnDeleteClient);
         btnSearchClient = (Button)findViewById(R.id.btnSearchClient);
+        btnCancel = (Button)findViewById(R.id.btnMainActivity);
 
         clientName = (TextView)findViewById(R.id.clientName);
         description = (TextView)findViewById(R.id.clientDescription);
@@ -86,6 +86,13 @@ public class Act_Delete_Client extends AppCompatActivity {
                 global.goto_SearchClient(v);
             }
         });
+        btnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                global.goto_MainMenu(v);
+            }
+        });
+
         //--------------------------------------------------------------
         super.onCreate(savedInstanceState);
     }

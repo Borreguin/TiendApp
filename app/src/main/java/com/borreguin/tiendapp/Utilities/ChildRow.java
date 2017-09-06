@@ -1,5 +1,12 @@
 package com.borreguin.tiendapp.Utilities;
 
+import android.content.Context;
+import android.content.res.Resources;
+
+import com.borreguin.tiendapp.R;
+
+import static android.provider.Settings.Global.getString;
+
 /**
  * Created by Roberto on 8/31/2017.
  * com.borreguin.tiendapp.Utilities
@@ -7,11 +14,48 @@ package com.borreguin.tiendapp.Utilities;
 
 public class ChildRow {
     private int icon;
-    private String text;
+    private String clientName;
+    private String debt;
+    private String rely;
 
-    public ChildRow(int icon, String text) {
+    public String getDebt() {
+        return debt;
+    }
+
+    public void setDebt(String debt) {
+        this.debt = debt;
+    }
+
+    public String getRely() {
+        return rely;
+    }
+
+    public void setRely(String rely) {
+        this.rely = rely;
+    }
+
+    public ChildRow(int icon, String clientName) {
         this.icon = icon;
-        this.text = text;
+        this.clientName = clientName;
+    }
+
+    public ChildRow(int icon, String clientName, String debt, String rely) {
+        this.icon = icon;
+        this.clientName = clientName;
+        this.debt = debt;
+        this.rely = rely;
+    }
+
+    public ChildRow(int icon, String clientName, String debt, boolean rely) {
+        this.icon = icon;
+        this.clientName = clientName;
+        this.debt = debt;
+
+        if(rely) {
+            this.rely = "Si";
+        }else{
+            this.rely = "No";
+        }
     }
 
     public int getIcon() {
@@ -22,11 +66,11 @@ public class ChildRow {
         this.icon = icon;
     }
 
-    public String getText() {
-        return text;
+    public String getClientName() {
+        return clientName;
     }
 
-    public void setText(String text) {
-        this.text = text;
+    public void setClientName(String clientName) {
+        this.clientName = clientName;
     }
 }
