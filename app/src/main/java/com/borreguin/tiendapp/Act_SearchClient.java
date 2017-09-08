@@ -34,17 +34,17 @@ public class Act_SearchClient extends AppCompatActivity
 
     // Search list:
     private SearchManager searchManager;
-    private android.widget.SearchView searchView;
+    android.widget.SearchView searchView;
     private ClientListAdapter listAdapter;
     private ExpandableListView myList;
-    private ArrayList<ParentRow> parentList = new ArrayList<ParentRow>();
-    private ArrayList<ParentRow> showTheseParentList = new ArrayList<ParentRow>();
+    private ArrayList<ParentRow> parentList = new ArrayList<>();
+    private ArrayList<ParentRow> showTheseParentList = new ArrayList<>();
     private MenuItem searchItem;
     // Manage of clients
     private DBHandler_Clients db = new DBHandler_Clients(this);
 
     //Data of clients
-    private List<Client> clients;
+    List<Client> clients;
     private SortedSet capLetters = new TreeSet<>();
 
 
@@ -69,8 +69,8 @@ public class Act_SearchClient extends AppCompatActivity
         // *****************************************
         // Search clients:
         searchManager = (SearchManager)getSystemService(Context.SEARCH_SERVICE);
-        parentList = new ArrayList<ParentRow>();
-        showTheseParentList = new ArrayList<ParentRow>();
+        parentList = new ArrayList<>();
+        showTheseParentList = new ArrayList<>();
 
 
         // The app will crash if display list is not called here
@@ -89,7 +89,7 @@ public class Act_SearchClient extends AppCompatActivity
     // Permite la organizacion de manera alfabetica
     private void loadData(){
         // mapping letters and positions
-        Map<Character, Integer> map_KV = new HashMap<Character, Integer>();
+        Map<Character, Integer> map_KV = new HashMap<>();
         char letter;
         int idx = 0;
 
@@ -116,15 +116,16 @@ public class Act_SearchClient extends AppCompatActivity
         ParentRow parentRow = null;
 
         for(int idx_x=0;idx_x<capLetters.size();idx_x++){
-            childRows[idx_x] = new ArrayList<ChildRow>();
+            childRows[idx_x] = new ArrayList<>();
         }
 
         for(Client client : clients){
             letter = client.getName().charAt(0);
             idx =  map_KV.get(Character.toUpperCase(letter));
             childRows[idx].add(new ChildRow(
-                    R.mipmap.generic_icon,  // Client icon
-                    client.getName(),       // Name client
+                    R.mipmap.generic_icon,      // Client icon
+                    client.getName(),           // Name client
+                    client.getDescription(),    // client Description
                     String.valueOf(client.getToPay()),  //Debt to pay
                     client.isToRely()) //is rely?);
             );

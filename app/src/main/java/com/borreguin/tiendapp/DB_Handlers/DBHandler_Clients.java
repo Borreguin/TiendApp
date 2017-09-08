@@ -182,6 +182,8 @@ public class DBHandler_Clients extends SQLiteOpenHelper {
             cursor.moveToFirst();
 
         if (cursor.getCount() == 0) {
+            cursor.close();
+            db.close();
             return new Client();
         }
 
@@ -196,12 +198,15 @@ public class DBHandler_Clients extends SQLiteOpenHelper {
                     cursor.getString(Idx_dateUpdate_6)
             );
             cursor.close();
+            db.close();
             // return client
             return contact;
 
         }catch (ParseException e) {
             e.printStackTrace();
         }
+        cursor.close();
+        db.close();
         return new Client();
     }
 
@@ -221,6 +226,8 @@ public class DBHandler_Clients extends SQLiteOpenHelper {
             if(cursor.getCount()<=0){
                 Client temporal = new Client(global.id_temp, global.prefix + "", "", 0);
                 clientList.add(temporal);
+                cursor.close();
+                db.close();
                 return clientList;
             }
             // looping through all rows and adding to list
@@ -258,7 +265,7 @@ public class DBHandler_Clients extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(countQuery, null);
         cursor.close();
-
+        db.close();
         // return count
         return cursor.getCount();
     }

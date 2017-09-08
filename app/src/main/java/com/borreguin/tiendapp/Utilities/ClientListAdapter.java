@@ -174,10 +174,13 @@ public class ClientListAdapter extends BaseExpandableListAdapter {
         else {
             for (ParentRow parentRow : originalList) {
                 ArrayList<ChildRow> childList = parentRow.getChildList();
-                ArrayList<ChildRow> newList = new ArrayList<ChildRow>();
+                ArrayList<ChildRow> newList = new ArrayList<>();
 
+                // MAKING THE SEARCHING ACTIVITY:
                 for (ChildRow childRow: childList) {
-                    if (childRow.getClientName().toLowerCase().contains(query)) {
+                    if (childRow.getClientName().toLowerCase().contains(query)
+                            || childRow.getClientDescription().toLowerCase().contains(query)
+                            ) {
                         newList.add(childRow);
                     }
                 } // end for (com.example.user.searchviewexpandablelistview.ChildRow childRow: childList)

@@ -13,7 +13,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Switch;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.borreguin.tiendapp.Class.Client;
@@ -25,14 +24,13 @@ import java.util.List;
 public class Act_Edit_client extends AppCompatActivity {
 
     // variables for layout
-    private Button btnEditClient;
-    private Button btnSearchClient;
-    private Button btnCancel;
+    Button btnEditClient;
+    Button btnSearchClient;
+    Button btnCancel;
     private EditText clientName;
     private EditText description;
     private EditText clientDebt;
     private Switch swRelyClient;
-    private Context context;
 
     // variables for data
     private List<Client> clients;
@@ -59,8 +57,7 @@ public class Act_Edit_client extends AppCompatActivity {
             uniqueClient = checkClient(getBaseContext(),
                     clients,clientName.getText().toString(),
                     clientName);
-            String clientName_aux = clientName.getText().toString();
-            if(clientName.getText().toString().equals(tempClient.getName().toString())){
+            if(clientName.toString().equals(tempClient.getName())){
                 uniqueClient = true;
                 clientName.setTextColor(ContextCompat.getColor(getBaseContext(),R.color.fine));
             }
@@ -84,8 +81,8 @@ public class Act_Edit_client extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         setContentView(R.layout.activity_act_edit_client);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        //setSupportActionBar(toolbar);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -167,6 +164,7 @@ public class Act_Edit_client extends AppCompatActivity {
         if(uniqueClient || edt_client.equals(aux_client) ) {
             updateTemporalClient();
             db.updateClient(tempClient);
+            db.close();
             global.goto_SearchClient(v);
         }else{
             Toast.makeText(Act_Edit_client.this,

@@ -6,6 +6,7 @@ import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.EditText;
 
+import com.borreguin.tiendapp.Act_ClientDetails;
 import com.borreguin.tiendapp.Act_NewClient;
 import com.borreguin.tiendapp.Act_SearchClient;
 import com.borreguin.tiendapp.MainActivity;
@@ -38,6 +39,11 @@ public class Global {
     public void goto_MainMenu(View v){
         Context context = v.getContext();
         Intent NextPage = new Intent(context, MainActivity.class);
+        context.startActivity(NextPage);
+    }
+    public void goto_DetailsClient(View v){
+        Context context = v.getContext();
+        Intent NextPage = new Intent(context, Act_ClientDetails.class);
         context.startActivity(NextPage);
     }
 

@@ -7,4 +7,5 @@
     <color name="title">#000000</color>
     <color name="wrong">#f40707</color>
     <color name="fine">#09a745</color>
+    <color name="black">#000000</color>
 </resources>

@@ -35,4 +35,8 @@
     <string name="title_activity_act_edit_client">Editar cliente</string>
     <string name="Save_Information">Guardar Información</string>
     <string name="title_activity_act__client_details">Detalles del cliente</string>
+    <string name="add">Añadir</string>
+    <string name="sumatory">20.0 + 2.5 + 0.25</string>
+    <string name="value">123.25</string>
+    <string name="sign">+</string>
 </resources>

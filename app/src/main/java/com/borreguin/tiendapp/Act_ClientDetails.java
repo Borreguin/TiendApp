@@ -6,8 +6,21 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.GridView;
+
+
+
+
+import java.io.IOError;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Act_ClientDetails extends AppCompatActivity {
+
+    //List<ChildValue> valueItems = new ArrayList<>();
+    GridView grid;
+    String[] description;
+    float[] value;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +38,7 @@ public class Act_ClientDetails extends AppCompatActivity {
             }
         });
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
     }
 
 }

@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.borreguin.tiendapp.Act_SearchClient">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+
 
         <ImageView
             android:layout_width="wrap_content"
@@ -36,7 +34,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/txt_debt"
-            android:paddingLeft="50sp"
+            android:paddingLeft="40sp"
             android:paddingTop="25sp"
             android:textSize="19sp"
             android:layout_alignParentTop="true"
@@ -50,17 +48,17 @@
 
 
         <Button
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
             android:layout_alignParentRight="true"
-            android:layout_marginLeft="25dp"
+            android:layout_marginLeft="5dp"
             android:id="@+id/btnDeleteClient"
             android:background="@drawable/trash_20"/>
 
 
         <Button
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
             android:layout_toLeftOf="@+id/btnDeleteClient"
             android:background="@drawable/edit_20"
             android:id="@+id/btnEditClient"/>
@@ -90,7 +88,4 @@
             android:textAppearance="?android:textAppearanceMedium"
             />
 
-
-
-    </RelativeLayout>
-</ScrollView>
+</RelativeLayout>

@@ -15,6 +15,7 @@ import static android.provider.Settings.Global.getString;
 public class ChildRow {
     private int icon;
     private String clientName;
+    private String clientDescription;
     private String debt;
     private String rely;
 
@@ -46,10 +47,12 @@ public class ChildRow {
         this.rely = rely;
     }
 
-    public ChildRow(int icon, String clientName, String debt, boolean rely) {
+    public ChildRow(int icon, String clientName, String clientDescription,
+                    String debt, boolean rely) {
         this.icon = icon;
         this.clientName = clientName;
         this.debt = debt;
+        this.clientDescription = clientDescription;
 
         if(rely) {
             this.rely = "Si";
@@ -68,6 +71,10 @@ public class ChildRow {
 
     public String getClientName() {
         return clientName;
+    }
+
+    public String getClientDescription() {
+        return clientDescription;
     }
 
     public void setClientName(String clientName) {

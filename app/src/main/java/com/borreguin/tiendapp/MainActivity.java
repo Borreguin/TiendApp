@@ -8,10 +8,9 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.Toast;
 
-import com.borreguin.tiendapp.Class.Client;
 import com.borreguin.tiendapp.Class.Global;
 import com.borreguin.tiendapp.Utilities.App_icon;
-import com.borreguin.tiendapp.Utilities.CustomGrid;
+import com.borreguin.tiendapp.Utilities.CustomGrid_icons;
 
 public class MainActivity extends AppCompatActivity {
     // Creating a grid of Apps:
@@ -42,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
 
         // connecting Layout with controls
         // btn_manage_client = (Button)findViewById(R.id.btn_manage_client);
-        CustomGrid adapter = new CustomGrid(MainActivity.this,web,imageId);
+        CustomGrid_icons adapter = new CustomGrid_icons(MainActivity.this,web,imageId);
 
         grid=(GridView)findViewById(R.id.grid);
         grid.setAdapter(adapter);
@@ -60,9 +59,7 @@ public class MainActivity extends AppCompatActivity {
 
     // NAVIGATION BUTTONS
     // NavigateButton -> Open menu for Manage of clients
-    public void gotoManage_Clients(View view){
 
-    }
     public void gotoNewActivity(int activity_view){
 
         Intent NextPage;
@@ -71,6 +68,7 @@ public class MainActivity extends AppCompatActivity {
             case 0:
                 break;
             case 1:
+                global.goto_DetailsClient(view);
                 break;
 
             // Search Clients
@@ -85,4 +83,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
+
+
 }

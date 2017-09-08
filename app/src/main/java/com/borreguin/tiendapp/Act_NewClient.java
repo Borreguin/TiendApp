@@ -211,6 +211,7 @@ public class Act_NewClient extends AppCompatActivity {
 
         Client temporalClient = new Client(global.id_temp, global.prefix + "", "", 0);
         db.updateClient(temporalClient);
+        db.close();
     }
 
     public Boolean isThereTemporalClient() {
@@ -218,10 +219,12 @@ public class Act_NewClient extends AppCompatActivity {
         Client tempClient = db.getClient(global.id_temp);
         if (tempClient.isEmpty()) {
             db.addClient(new Client(global.id_temp, global.prefix, "", 0));
+            db.close();
             return false;
         }
 
         if (tempClient.getName().equals(global.prefix)) {
+            db.close();
             return false;
         }
         else {
@@ -240,4 +243,9 @@ public class Act_NewClient extends AppCompatActivity {
     }
     public void clean_debt(View view){clientDebt.setText("0");}
 
+    @Override
+    protected void onStop() {
+        db.close();
+        super.onStop();
+    }
 }
