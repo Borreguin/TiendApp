@@ -13,15 +13,15 @@ import java.util.Date;
  */
 
 public class Client {
-    private int id;
-    private String name;
-    private String description;
-    private float toPay;
-    private boolean toRely;
-    private int account;
-    private Date date_update;
-    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-
+    private int id;             // internal id client
+    private String name;        // client name
+    private String description; // client description 
+    private float toPay;        // is the debt to Pay
+    private boolean toRely;     // the client is rely?
+    private int account;        // current account in use
+    private Date date_update;   // date when it was updated
+    Global global = new Global();
+    
     public Client(){
         this.id = 1;
         this.name = "";
@@ -42,7 +42,7 @@ public class Client {
         this.account = 0;
         this.date_update = Calendar.getInstance().getTime();
     }
-    public Client(String name,String description)
+   /* public Client(String name,String description)
     {
         this.name=name;
         this.description=description;
@@ -50,7 +50,7 @@ public class Client {
         this.toRely = true;
         this.account = 0;
         this.date_update = Calendar.getInstance().getTime();
-    }
+    }*/
 
     public Client(int i, String name, String description, float toPay,
                   int toRely, int account, String date_update) throws ParseException {
@@ -60,7 +60,7 @@ public class Client {
         this.toPay= toPay;
         this.toRely = (toRely>=1);
         this.account = account;
-        this.date_update = formatter.parse(date_update);
+        this.date_update = global.formatter.parse(date_update);
     }
 
     public Client(String name, String description, float toPay)
@@ -73,12 +73,19 @@ public class Client {
         this.date_update = Calendar.getInstance().getTime();
     }
 
+    public Client(String name, String description, String toPay){
+        this.name=name;
+        this.description = description;
+        this.toRely = true;
+        this.account = 0;
+        this.date_update = Calendar.getInstance().getTime();
+        this.toPay = global.parseStringToFloat(toPay);
+    }
 
     public boolean isToRely() {
         return toRely;
     }
-
-
+    
     public int getToRely_int(){
         if(this.toRely){
 
@@ -95,10 +102,9 @@ public class Client {
     public void setAccount(int account) {
         this.account = account;
     }
-
-
+    
     public String getDate_update_string() {
-        return formatter.format(date_update);
+        return global.formatter.format(date_update);
     }
 
     public void setDate_update(Date date_update) {
@@ -107,7 +113,7 @@ public class Client {
 
     public void setDate_update(String str_date_update) {
         try {
-            this.date_update = formatter.parse(str_date_update);
+            this.date_update = global.formatter.parse(str_date_update);
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -119,8 +125,7 @@ public class Client {
     public void setToRely(int toRely) {
         this.toRely = (toRely >=1);
     }
-
-
+    
     public float getToPay() {
         return toPay;
     }
@@ -129,6 +134,9 @@ public class Client {
         this.toPay = toPay;
     }
 
+    public void setToPay(String toPay) {
+        this.toPay = global.parseStringToFloat(toPay);
+    }
 
     public void setId(int id) {
         this.id = id;
@@ -157,5 +165,18 @@ public class Client {
 
     public Boolean isEmpty(){
         return this.getName().isEmpty();
+    }
+    
+    public Boolean newAccount(){
+        this.account +=1;
+        if( this.account > global.number_of_accounts){
+            this.account = 0;
+        }
+        this.date_update = Calendar.getInstance().getTime();
+        return false;
+    }
+
+    public void update_date(){
+        this.date_update = Calendar.getInstance().getTime();
     }
 }

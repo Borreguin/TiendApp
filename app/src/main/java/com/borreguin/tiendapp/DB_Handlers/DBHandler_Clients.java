@@ -22,7 +22,7 @@ import java.util.List;
 
 public class DBHandler_Clients extends SQLiteOpenHelper {
     // Database Version
-    private static final int DATABASE_VERSION = 6;
+    private static final int DATABASE_VERSION = 7;
 
     // Database Name
     private static final String DATABASE_NAME = "DB_infoClients";
@@ -40,7 +40,7 @@ public class DBHandler_Clients extends SQLiteOpenHelper {
     private static final String KEY_ACCOUNT = "accountDetail";
     private static final String KEY_DATE_UPDATE = "dateUpdate";
 
-    // Account register for user
+    // Metadata values:
     private static final String KEY_KEY = "key";
     private static final String KEY_VALUE = "value";
 
@@ -48,13 +48,14 @@ public class DBHandler_Clients extends SQLiteOpenHelper {
     private static final int Idx_id_0 = 0, Idx_name_1 = 1, Idx_dscrp_2 = 2,
             Idx_toPay_3 = 3, Idx_toRely_4 =4, Idx_account_5 = 5, Idx_dateUpdate_6 =6;
 
+    // Global values
+    private Global global = new Global();
+
     // Constructor
     public DBHandler_Clients(Context context){
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
-    // Global values
-    private Global global = new Global();
     @Override
     public void onCreate(SQLiteDatabase db) {
 
@@ -81,8 +82,8 @@ public class DBHandler_Clients extends SQLiteOpenHelper {
          */
 
         // For key and value table, KEY_ID is unique
-        // TABLE CAPITAL_CLIENTS
-        String CREATE_CAPITAL_CLIENTS = "CREATE TABLE " + TABLE_METADATA + "("
+        // TABLE METADATA_CLIENTS
+        String CREATE_METADATA = "CREATE TABLE " + TABLE_METADATA + "("
                 + KEY_ID + " INTEGER PRIMARY KEY,"
                 + KEY_KEY + " STRING, "
                 + KEY_VALUE + " STRING "
@@ -92,7 +93,7 @@ public class DBHandler_Clients extends SQLiteOpenHelper {
             detail:         text                    detail document
          */
         try {
-            db.execSQL(CREATE_CAPITAL_CLIENTS);
+            db.execSQL(CREATE_METADATA);
         }catch (SQLException e){
             e.printStackTrace();
         }
@@ -233,17 +234,20 @@ public class DBHandler_Clients extends SQLiteOpenHelper {
             // looping through all rows and adding to list
             if (cursor.moveToFirst()) {
                 do {
-                    Client client = new Client();
-                    client.setId(Integer.parseInt(cursor.getString(Idx_id_0)));
-                    client.setName(cursor.getString(Idx_name_1));
-                    client.setDescription(cursor.getString(Idx_dscrp_2));
-                    client.setToPay(Float.parseFloat(cursor.getString(Idx_toPay_3)));
-                    client.setToRely(Integer.parseInt(cursor.getString(Idx_toRely_4)));
-                    client.setAccount(Integer.parseInt(cursor.getString(Idx_account_5)));
-                    client.setDate_update(cursor.getString(Idx_dateUpdate_6));
-
-                    // Adding contact to list
-                    clientList.add(client);
+                    try {
+                        Client client = new Client();
+                        client.setId(Integer.parseInt(cursor.getString(Idx_id_0)));
+                        client.setName(cursor.getString(Idx_name_1));
+                        client.setDescription(cursor.getString(Idx_dscrp_2));
+                        client.setToPay(Float.parseFloat(cursor.getString(Idx_toPay_3)));
+                        client.setToRely(Integer.parseInt(cursor.getString(Idx_toRely_4)));
+                        client.setAccount(Integer.parseInt(cursor.getString(Idx_account_5)));
+                        client.setDate_update(cursor.getString(Idx_dateUpdate_6));
+                        // Adding contact to list
+                        clientList.add(client);
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
                 } while (cursor.moveToNext());
             }
             cursor.close();
@@ -273,7 +277,7 @@ public class DBHandler_Clients extends SQLiteOpenHelper {
     // Updating a client
     public int updateClient(Client client) {
         SQLiteDatabase db = this.getWritableDatabase();
-
+        client.update_date();
         ContentValues values = new ContentValues();
         values.put(KEY_NAME, client.getName());
         values.put(KEY_DSCRP, client.getDescription());

@@ -137,7 +137,7 @@ public class Act_SearchClient extends AppCompatActivity
             parentList.add(parentRow);
         }
 
-/*
+/* this is a simple test:
             // Adding members
             for(Client client : clients){
                 childRows[0].add(new ChildRow(
@@ -170,10 +170,6 @@ public class Act_SearchClient extends AppCompatActivity
         myList.setAdapter(listAdapter);
     }
 
-   /* private void gotoDeleteClient(){
-        Intent NextPage = new Intent(Act_SearchClient.this, Act_SearchClient.class);
-        startActivity(NextPage);
-    }*/
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

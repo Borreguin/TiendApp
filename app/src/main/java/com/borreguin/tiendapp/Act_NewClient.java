@@ -17,6 +17,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.borreguin.tiendapp.Class.Client;
 import com.borreguin.tiendapp.Class.Global;
+import com.borreguin.tiendapp.Class.Note;
+import com.borreguin.tiendapp.DB_Handlers.DBHandler_Accounts;
 import com.borreguin.tiendapp.DB_Handlers.DBHandler_Clients;
 
 import java.util.List;
@@ -30,6 +32,7 @@ public class Act_NewClient extends AppCompatActivity {
     private EditText description;
     private EditText clientDebt;
     private DBHandler_Clients db = new DBHandler_Clients(this);
+    private DBHandler_Accounts db_account = new DBHandler_Accounts(this);
 
     //private Client SelectedClient;
     Button btnNewClient;
@@ -162,12 +165,14 @@ public class Act_NewClient extends AppCompatActivity {
                     clientName.getText(), Toast.LENGTH_LONG).show();
         }else{
 
-            db.addClient(new Client(clientName.getText().toString().trim(),
+            // creating a new client to save in DB -------------------
+            Client new_client = new Client(
+                    clientName.getText().toString().trim(),
                     description.getText().toString(),
-                    Float.parseFloat(clientDebt.getText().toString())));
-
+                    clientDebt.getText().toString()
+            );
+            db.addClient(new_client);
             cleanTemporalClient();
-
             Toast message = Toast.makeText(Act_NewClient.this,
                     getString(R.string.Successfully) + "\n" +
                     getString(R.string.newClientCreated) + "\t" +
@@ -176,11 +181,15 @@ public class Act_NewClient extends AppCompatActivity {
             message.show();
 
             checkText.setCheckMarkDrawable(R.drawable.ok);
-            checkText.setChecked(false);
-            checkText.setText(getString(R.string.Successfully) + " "
-                    + getString(R.string.NewClient) + "\n" +clientName.getText());
-
             db.close();
+            // End creating a new client to save in DB -------------------
+
+            // Create account for client
+            db_account.addNote(new Note(
+                    global.parseStringToFloat(clientDebt.getText().toString())),
+                    new_client
+            );
+
             // got to the main activity
             global.goto_MainMenu(view);
         }
@@ -192,8 +201,6 @@ public class Act_NewClient extends AppCompatActivity {
         saveTemporalClient();
         global.goto_SearchClient(view);
     }
-
-
 
     // Create temporal client for testing or any other purpose
     public void saveTemporalClient(){
@@ -241,11 +248,12 @@ public class Act_NewClient extends AppCompatActivity {
     public void clean_description(View view){
         description.setText("");
     }
-    public void clean_debt(View view){clientDebt.setText("0");}
+    public void clean_debt(View view){clientDebt.setText("");}
 
     @Override
     protected void onStop() {
         db.close();
+        db_account.close();
         super.onStop();
     }
 }

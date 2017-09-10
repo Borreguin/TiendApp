@@ -50,18 +50,18 @@
         <activity
             android:name=".Act_Delete_Client"
             android:label="@string/title_activity_act__delete__client"
-            android:parentActivityName=".MainActivity">
+            android:parentActivityName=".Act_SearchClient">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.borreguin.tiendapp.MainActivity" />
+                android:value="com.borreguin.tiendapp.Act_SearchClient" />
         </activity>
         <activity
             android:name=".Act_Edit_client"
             android:label="@string/title_activity_act_edit_client"
-            android:parentActivityName=".MainActivity">
+            android:parentActivityName="Act_SearchClient">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.borreguin.tiendapp.MainActivity" />
+                android:value="com.borreguin.tiendapp.Act_SearchClient" />
         </activity>
         <activity
             android:name=".Act_ClientDetails"

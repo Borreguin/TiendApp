@@ -12,8 +12,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.borreguin.tiendapp.Act_ClientDetails;
 import com.borreguin.tiendapp.Act_Delete_Client;
 import com.borreguin.tiendapp.Act_Edit_client;
+import com.borreguin.tiendapp.Class.Global;
 import com.borreguin.tiendapp.R;
 
 import java.util.ArrayList;
@@ -30,6 +32,7 @@ public class ClientListAdapter extends BaseExpandableListAdapter {
     private ArrayList<ParentRow> parentRowList;
     private ArrayList<ParentRow> originalList;
     private Intent NextPage;
+    Global global = new Global();
 
     public ClientListAdapter(Context context
             , ArrayList<ParentRow> originalList) {
@@ -110,9 +113,10 @@ public class ClientListAdapter extends BaseExpandableListAdapter {
         final TextView debtText = (TextView) convertView.findViewById(R.id.txt_debt);
         final TextView relyText = (TextView) convertView.findViewById(R.id.txt_rely);
 
+        float client_deft = global.parseStringToFloat(childRow.getDebt());
         childIcon.setImageResource(childRow.getIcon());
         childText.setText(childRow.getClientName().trim());
-        debtText.setText(childRow.getDebt());
+        debtText.setText(String.format("%.2f",client_deft));
         relyText.setText(childRow.getRely());
 
 
@@ -123,6 +127,8 @@ public class ClientListAdapter extends BaseExpandableListAdapter {
                 Toast.makeText(finalConvertView.getContext()
                         , childText.getText()
                         , Toast.LENGTH_SHORT).show();
+
+                gotoClientDetails(v,childText.getText().toString());
             }
         });
 
@@ -229,4 +235,24 @@ public class ClientListAdapter extends BaseExpandableListAdapter {
         //Fire that second activity
         context.startActivity(NextPage);
     }
+
+    public void gotoClientDetails(View v, String childText){
+
+        // Pass information to the next view:
+        NextPage = new Intent(context, Act_ClientDetails.class);
+
+        //Create the bundle
+        Bundle bundle = new Bundle();
+
+        //Adding data to bundle
+        bundle.putString("NameClient",childText);
+
+        //Add the bundle to the intent
+        NextPage.putExtras(bundle);
+
+        //Fire that second activity
+        context.startActivity(NextPage);
+    }
+
+
 }

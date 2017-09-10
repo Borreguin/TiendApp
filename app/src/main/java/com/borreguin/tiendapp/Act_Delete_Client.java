@@ -11,18 +11,20 @@ import android.widget.TextView;
 
 import com.borreguin.tiendapp.Class.Client;
 import com.borreguin.tiendapp.Class.Global;
+import com.borreguin.tiendapp.DB_Handlers.DBHandler_Accounts;
 import com.borreguin.tiendapp.DB_Handlers.DBHandler_Clients;
 
 public class Act_Delete_Client extends AppCompatActivity {
 
     private TextView mTextMessage;
-    private Button btnDeleteClient;
-    private Button btnSearchClient;
-    private Button btnCancel;
+    Button btnDeleteClient;
+    Button btnSearchClient;
+    Button btnCancel;
     private TextView clientName;
     private TextView description;
     private TextView clientDebt;
     private DBHandler_Clients db = new DBHandler_Clients(this);
+    private DBHandler_Accounts db_account = new DBHandler_Accounts(this);
 
     private Client tempClient;
 
@@ -106,9 +108,16 @@ public class Act_Delete_Client extends AppCompatActivity {
 
     protected void deleteClient(View v){
         db.deleteClient(tempClient);
+        db_account.deleteAccounts(tempClient);
         global.goto_SearchClient(v);
     }
 
+    @Override
+    protected void onStop() {
+        db.close();
+        //db_account.close();
+        super.onStop();
+    }
 
 
 }

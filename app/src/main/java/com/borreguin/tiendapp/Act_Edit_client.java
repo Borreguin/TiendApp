@@ -148,7 +148,7 @@ public class Act_Edit_client extends AppCompatActivity {
     protected void updateTemporalClient(){
         tempClient.setName(clientName.getText().toString());
         tempClient.setDescription(description.getText().toString());
-        tempClient.setToPay( Float.parseFloat(clientDebt.getText().toString()));
+        tempClient.setToPay(clientDebt.getText().toString());
         tempClient.setToRely(swRelyClient.isChecked());
     }
 
@@ -179,6 +179,11 @@ public class Act_Edit_client extends AppCompatActivity {
     public void clean_description(View view){
         description.setText("");
     }
-    public void clean_debt(View view){clientDebt.setText("0");}
+    public void clean_debt(View view){clientDebt.setText("");}
 
+    @Override
+    protected void onStop() {
+        db.close();
+        super.onStop();
+    }
 }

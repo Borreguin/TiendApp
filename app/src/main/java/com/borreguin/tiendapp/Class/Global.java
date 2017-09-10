@@ -12,7 +12,9 @@ import com.borreguin.tiendapp.Act_SearchClient;
 import com.borreguin.tiendapp.MainActivity;
 import com.borreguin.tiendapp.R;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by Roberto on 9/2/2017.
@@ -25,6 +27,9 @@ public class Global {
     // NOTE: Test User or Temporal id=0
     public String prefix = "#TEMP_";
     public int id_temp = 1;
+    public int number_of_accounts = 2;  //is the number of accounts that is able to manage per client
+    Locale locale = new Locale( "es" , "ES" );
+    public SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy'T'HH:mm:ss", locale);
 
     public void goto_SearchClient(View v){
         Context context = v.getContext();
@@ -65,5 +70,15 @@ public class Global {
         return unique;
     }
 
+    public float parseStringToFloat(String toFloat){
+        float ans = 0.0f;
+        try{
+            ans = Float.parseFloat(toFloat);
+            return ans;
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return ans;
+    }
 
 }
