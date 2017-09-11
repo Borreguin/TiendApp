@@ -31,6 +31,12 @@ public class Note {
         this.date_update = Calendar.getInstance().getTime();
     }
 
+    public Note(float value, String description, Date date_update) {
+        this.value = value;
+        this.description = description;
+        this.date_update = date_update;
+    }
+
     public Note(int idNote, float value, String description, String date_update) {
         this.IdNote = idNote;
         this.value = value;

@@ -23,22 +23,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Act_Manage_Client"
-            android:label="@string/title_activity_act__manage__client"
-            android:parentActivityName=".MainActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.borreguin.tiendapp.MainActivity" />
-        </activity>
-        <activity
-            android:name=".Act_NewClient"
-            android:label="@string/title_activity_act__new_client"
-            android:parentActivityName=".Act_Manage_Client">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.borreguin.tiendapp.Act_Manage_Client" />
-        </activity>
-        <activity
             android:name=".Act_SearchClient"
             android:label="@string/searchClient"
             android:parentActivityName=".MainActivity"
@@ -58,7 +42,7 @@
         <activity
             android:name=".Act_Edit_client"
             android:label="@string/title_activity_act_edit_client"
-            android:parentActivityName="Act_SearchClient">
+            android:parentActivityName=".Act_SearchClient">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.borreguin.tiendapp.Act_SearchClient" />
@@ -71,6 +55,16 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.borreguin.tiendapp.Act_SearchClient" />
+        </activity>
+        <activity
+            android:name=".Act_DetailsNote"
+            android:label="@string/NoteDetails"
+            android:parentActivityName=".Act_ClientDetails"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.borreguin.tiendapp.Act_DetailsNote" />
+
         </activity>
     </application>
 

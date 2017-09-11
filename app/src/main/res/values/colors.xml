@@ -9,4 +9,5 @@
     <color name="fine">#09a745</color>
     <color name="black">#000000</color>
     <color name="white">#ffff</color>
+    <color name="note">#def1d906</color>
 </resources>

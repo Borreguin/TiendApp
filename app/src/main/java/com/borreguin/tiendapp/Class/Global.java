@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.borreguin.tiendapp.Act_ClientDetails;
+import com.borreguin.tiendapp.Act_DetailsNote;
 import com.borreguin.tiendapp.Act_NewClient;
 import com.borreguin.tiendapp.Act_SearchClient;
 import com.borreguin.tiendapp.MainActivity;
@@ -29,7 +30,8 @@ public class Global {
     public int id_temp = 1;
     public int number_of_accounts = 2;  //is the number of accounts that is able to manage per client
     Locale locale = new Locale( "es" , "ES" );
-    public SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy'T'HH:mm:ss", locale);
+    public SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss", locale);
+    public SimpleDateFormat formatter2 = new SimpleDateFormat("EEE dd - MMM - yyyy", locale);
 
     public void goto_SearchClient(View v){
         Context context = v.getContext();
@@ -49,6 +51,12 @@ public class Global {
     public void goto_DetailsClient(View v){
         Context context = v.getContext();
         Intent NextPage = new Intent(context, Act_ClientDetails.class);
+        context.startActivity(NextPage);
+    }
+
+    public void goto_DetailsNote(View v){
+        Context context = v.getContext();
+        Intent NextPage = new Intent(context, Act_DetailsNote.class);
         context.startActivity(NextPage);
     }
 
@@ -81,4 +89,12 @@ public class Global {
         return ans;
     }
 
+    public String getlines(int numberLines){
+        String ans = "";
+
+        for(int i =0; i<numberLines; i++){
+            ans += "\n ";
+        }
+        return ans;
+    }
 }

@@ -1,5 +1,6 @@
 package com.borreguin.tiendapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -40,9 +41,10 @@ public class Act_ClientDetails extends AppCompatActivity {
     GridView grid;
     TextView clientName, description, debtTotal;
     EditText putDebt;
-    Button btn_plusNote, btn_minusNote;
+    Button btn_plusNote, btn_minusNote, btn_addDetails;
     View view;
     Client client;
+    Intent NextPage;
 
     // global variables and functions
     Global global = new Global();
@@ -73,6 +75,7 @@ public class Act_ClientDetails extends AppCompatActivity {
         putDebt = (EditText) findViewById(R.id.txt_enterDeft);
         btn_plusNote = (Button) findViewById(R.id.btn_addDeft);
         btn_minusNote = (Button) findViewById(R.id.btn_lessDeft);
+        btn_addDetails = (Button) findViewById(R.id.btn_addDetails);
         grid=(GridView)findViewById(R.id.grid_item_values);
 
         // setting functions for each button
@@ -93,6 +96,12 @@ public class Act_ClientDetails extends AppCompatActivity {
         if(LoadClient()) //if the user is not loaded then scape
         {
             update_grid();
+            btn_addDetails.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    gotoNoteDetails(v, client.getName(), putDebt.getText().toString());
+                }
+            });
         }
         super.onCreate(savedInstanceState);
 
@@ -139,4 +148,21 @@ public class Act_ClientDetails extends AppCompatActivity {
         db_client.updateClient(client);
         // ---------------------------------------
     }
+
+    public void gotoNoteDetails(View v, String childText, String putDeft){
+
+        // Pass information to the next view:
+        NextPage = new Intent(Act_ClientDetails.this, Act_DetailsNote.class);
+        //Create the bundle
+        Bundle bundle = new Bundle();
+        //Adding data to bundle
+        bundle.putString("NameClient",childText);
+        bundle.putString("putDeft", putDeft);
+        //Add the bundle to the intent
+        NextPage.putExtras(bundle);
+        //Fire that second activity
+        startActivity(NextPage);
+    }
+
+
 }

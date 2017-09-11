@@ -208,7 +208,7 @@ public class Act_NewClient extends AppCompatActivity {
        Client temporalClient = new Client( global.id_temp,
                 global.prefix + clientName.getText().toString(),
                 description.getText().toString(),
-                Float.parseFloat(clientDebt.getText().toString()));
+                global.parseStringToFloat(clientDebt.getText().toString()));
         db.updateClient(temporalClient);
         clients = db.getAllClients();
         db.close();

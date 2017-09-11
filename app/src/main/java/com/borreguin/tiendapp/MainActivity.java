@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
             case 0:
                 break;
             case 1:
-                global.goto_DetailsClient(view);
+                global.goto_DetailsNote(view);
                 break;
 
             // Search Clients

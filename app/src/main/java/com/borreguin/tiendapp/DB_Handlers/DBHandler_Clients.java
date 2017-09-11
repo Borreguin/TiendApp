@@ -22,7 +22,7 @@ import java.util.List;
 
 public class DBHandler_Clients extends SQLiteOpenHelper {
     // Database Version
-    private static final int DATABASE_VERSION = 7;
+    private static final int DATABASE_VERSION = 8;
 
     // Database Name
     private static final String DATABASE_NAME = "DB_infoClients";
