@@ -32,6 +32,15 @@
                 android:resource="@xml/searchable" />
         </activity>
         <activity
+            android:name=".Act_NewClient"
+            android:label="@string/title_activity_act__new_client"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.borreguin.tiendapp.MainActivity"
+                />
+        </activity>
+        <activity
             android:name=".Act_Delete_Client"
             android:label="@string/title_activity_act__delete__client"
             android:parentActivityName=".Act_SearchClient">

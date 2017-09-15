@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -40,6 +41,17 @@ public class Act_DetailsNote extends AppCompatActivity {
     // Manage Databases:
     private DBHandler_Clients db_client = new DBHandler_Clients(this);
     private DBHandler_Accounts db_account = new DBHandler_Accounts(this);
+
+    // overwriting the back button
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                gotoClientDetails(getWindow().getCurrentFocus(), client.getName());
+                break;
+        }
+        return true;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
