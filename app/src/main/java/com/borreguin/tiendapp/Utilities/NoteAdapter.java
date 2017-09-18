@@ -73,14 +73,14 @@ public class NoteAdapter extends BaseAdapter {
 
         final View finalConvertView = convertView;
 
-        childValue.setOnClickListener(new View.OnClickListener() {
+       /* childValue.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(finalConvertView.getContext()
                         , childValue.getText()
                         , Toast.LENGTH_SHORT).show();
             }
-        });
+        });*/
 
         return convertView;
     }

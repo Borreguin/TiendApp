@@ -118,7 +118,7 @@ public class DBHandler_Accounts extends SQLiteOpenHelper {
         values.put(KEY_NOTE_DESCRIPTION, note.getDescription());        // Note Description
         values.put(KEY_ACCOUNT, client.getAccount());                   // Valid account
         values.put(KEY_VALUE_DEFT, note.getValue());                         // Get value of this note
-        values.put(KEY_DATE_UPDATE, client.getDate_update_string());    // Save date when it was created
+        values.put(KEY_DATE_UPDATE, note.getDate_update_string());    // Save date when it was created
         // Inserting Row
         db.insert(TABLE_NOTES, null, values);
         // Closing database connection
@@ -163,7 +163,21 @@ public class DBHandler_Accounts extends SQLiteOpenHelper {
         return clientAccount;
     }
 
-    public void deleteAccounts(Client client){
+    public Boolean delete_Accounts(Client client, int IdAccount){
+        SQLiteDatabase db = this.getReadableDatabase();
+        try {
+            db.delete(TABLE_NOTES, KEY_CLIENT_NAME + " = ?" + " AND "
+                            + KEY_ACCOUNT + " = ?",
+                    new String[] { client.getName(), String.valueOf(IdAccount)});
+            db.close();
+            return true;
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public void delete_All_Accounts(Client client){
         SQLiteDatabase db = this.getReadableDatabase();
         try {
             db.delete(TABLE_NOTES, KEY_CLIENT_NAME + " = ?",
@@ -174,5 +188,90 @@ public class DBHandler_Accounts extends SQLiteOpenHelper {
             e.printStackTrace();
         }
     }
+
+    public Note getNote(Client client, int idNote){
+        SQLiteDatabase db = this.getReadableDatabase();
+        Note note = new Note(0.f);
+
+        try {
+            Cursor cursor = db.query(TABLE_NOTES, new String[]{KEY_ID_NOTE,
+                            KEY_CLIENT_NAME, KEY_NOTE_DESCRIPTION, KEY_ACCOUNT,
+                            KEY_VALUE_DEFT, KEY_DATE_UPDATE},
+                    KEY_ID_NOTE + "=?" + " AND " + KEY_CLIENT_NAME + "=?" ,
+                    new String[]{ String.valueOf(idNote), client.getName()},
+                    null, null, null, null);
+
+            if (cursor == null || cursor.getCount() == 0)
+                return note;
+            else
+                cursor.moveToFirst();
+
+            note = new Note(
+                    Integer.parseInt(cursor.getString(Idx_id_0)),
+                    Float.parseFloat(cursor.getString(Idx_value_deft_4)),
+                    cursor.getString(Idx_dscrp_2),
+                    cursor.getString(Idx_date_update_5)
+            );
+            cursor.close();
+            db.close();
+            return  note;
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        db.close();
+
+        return  note;
+    }
+
+    public Boolean deleteNote(Client client, int idNote){
+        SQLiteDatabase db = this.getReadableDatabase();
+        try {
+            db.delete(TABLE_NOTES, KEY_CLIENT_NAME + " = ?" +
+                            " AND " + KEY_ID_NOTE + " = ?",
+                    new String[] { client.getName(), String.valueOf(idNote)});
+            db.close();
+            return true;
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public int updateNote(Note note){
+        SQLiteDatabase db = this.getWritableDatabase();
+        // values to update:
+        ContentValues values = new ContentValues();
+        values.put(KEY_ID_NOTE, note.getIdNote());
+        values.put(KEY_VALUE_DEFT, note.getValue());
+        values.put(KEY_NOTE_DESCRIPTION, note.getDescription());
+        values.put(KEY_DATE_UPDATE, note.getDate_update_string());
+
+        // updating row
+        try {
+            return db.update(TABLE_NOTES, values, KEY_ID_NOTE + " = ?",
+                    new String[]{String.valueOf(note.getIdNote())});
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+
+    public int updateNameClient(String original_name, String new_name){
+        SQLiteDatabase db = this.getWritableDatabase();
+        // values to update:
+        ContentValues values = new ContentValues();
+        values.put(KEY_CLIENT_NAME, new_name);
+
+        // updating row
+        try {
+            return db.update(TABLE_NOTES, values, KEY_CLIENT_NAME + " = ?",
+                    new String[]{original_name});
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
 
 }

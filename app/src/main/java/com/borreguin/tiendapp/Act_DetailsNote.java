@@ -1,7 +1,6 @@
 package com.borreguin.tiendapp;
 
 import android.app.DatePickerDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -47,7 +46,7 @@ public class Act_DetailsNote extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                gotoClientDetails(getWindow().getCurrentFocus(), client.getName());
+                gotoClientAccount(getWindow().getCurrentFocus(), client.getName());
                 break;
         }
         return true;
@@ -70,10 +69,10 @@ public class Act_DetailsNote extends AppCompatActivity {
         // Getting information from the last view
         try {
             Bundle bundle = getIntent().getExtras();
-            clientName.setText(bundle.getString("NameClient"));
+            clientName.setText(bundle.getString("clientName"));
             putDebt.setText(bundle.getString("putDeft"));
             // loading data of temporal client
-            client = db_client.getClient(bundle.getString("NameClient"));
+            client = db_client.getClient(bundle.getString("clientName"));
         }catch (Exception e){
             client = new Client(global.id_temp,global.prefix,"",0);
             e.printStackTrace();
@@ -113,14 +112,14 @@ public class Act_DetailsNote extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 plusNoteToClient();
-                gotoClientDetails(v, client.getName().toString());
+                gotoClientAccount(v, client.getName().toString());
             }
         });
         btn_minusNote.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 minusNoteToClient();
-                gotoClientDetails(v, client.getName().toString());
+                gotoClientAccount(v, client.getName().toString());
             }
         });
 
@@ -160,16 +159,16 @@ public class Act_DetailsNote extends AppCompatActivity {
     }
 
 
-    public void gotoClientDetails(View v, String childText){
+    public void gotoClientAccount(View v, String childText){
 
         // Pass information to the next view:
-        NextPage = new Intent(Act_DetailsNote.this, Act_ClientDetails.class);
+        NextPage = new Intent(Act_DetailsNote.this, Act_ClientAccount.class);
 
         //Create the bundle
         Bundle bundle = new Bundle();
 
         //Adding data to bundle
-        bundle.putString("NameClient",childText);
+        bundle.putString("clientName",childText);
 
         //Add the bundle to the intent
         NextPage.putExtras(bundle);

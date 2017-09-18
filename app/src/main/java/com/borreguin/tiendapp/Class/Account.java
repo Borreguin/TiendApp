@@ -42,7 +42,6 @@ public class Account {
     }
 
 
-
     public void setNotes(ArrayList<Note> notes) {
         this.notes = notes;
     }
@@ -54,4 +53,9 @@ public class Account {
         }
         return ans;
     }
+
+    public Note getNote(int position){
+        return notes.get(position);
+    }
+
 }

@@ -24,8 +24,7 @@ public class Note {
         this.date_update = Calendar.getInstance().getTime();
     }
 
-    public Note(int idNote, float value, String description) {
-        this.IdNote = idNote;
+    public Note(float value, String description) {
         this.value = value;
         this.description = description;
         this.date_update = Calendar.getInstance().getTime();
@@ -70,5 +69,27 @@ public class Note {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getDate_update_string() {
+        return global.formatter.format(this.date_update);
+    }
+
+    public String getDate_update_string_2() {
+        return global.formatter2.format(this.date_update);
+    }
+
+    public void setDateUpdate(String dateUpdate){
+        try {
+            this.date_update = global.formatter.parse(dateUpdate);
+        }
+        catch (ParseException e) {
+            try {
+                this.date_update = global.formatter2.parse(dateUpdate);
+            } catch (ParseException e1){
+                this.date_update = Calendar.getInstance().getTime();
+                e1.printStackTrace();
+            }
+        }
     }
 }

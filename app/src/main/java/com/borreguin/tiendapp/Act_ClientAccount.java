@@ -36,7 +36,7 @@ public class Act_ClientAccount extends AppCompatActivity {
     //local variables:
     GridView grid;
     TextView clientName, description, debtTotal;
-    private EditText putDebt;
+    EditText putDebt;
     Button btn_plusNote, btn_minusNote, btn_addDetails;
     View view;
     Client client;
@@ -52,13 +52,14 @@ public class Act_ClientAccount extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                //        .setAction("Action", null).show();
+
+                gotoEditClient();
             }
         });
 
@@ -105,9 +106,9 @@ public class Act_ClientAccount extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
-                /*Toast.makeText(Act_ClientAccount.this, "Ingresando a "
+                Toast.makeText(Act_ClientAccount.this, "Ingresando a "
                                 + clientAccount.getNote(position).getValue(),
-                        Toast.LENGTH_LONG).show();*/
+                        Toast.LENGTH_LONG).show();
                 gotoEditNote(view, position);
             }
         });
@@ -120,13 +121,14 @@ public class Act_ClientAccount extends AppCompatActivity {
     }
 
     private Boolean LoadClient(){
+
         // loading data from the last view
         try {
             Bundle bundle = getIntent().getExtras();
             client = db_client.getClient(bundle.getString("clientName"));
             clientName.setText(client.getName());
             description.setText(client.getDescription());
-            debtTotal.setText(String.format("%.2f", clientAccount.getTotal()));
+            debtTotal.setText(String.format("%.2f",clientAccount.getTotal()));
             return true;
         }catch (Exception e){
             e.printStackTrace();
@@ -146,39 +148,15 @@ public class Act_ClientAccount extends AppCompatActivity {
     }
 
     private void update_grid(){
-        /*clientAccount = db_account.getClientAccount(client);
-        NoteAdapter adapter = new NoteAdapter(Act_ClientAccount.this,
-                clientAccount.getNotes(), client.getName());
+        clientAccount = db_account.getClientAccount(client);
+        NoteAdapter adapter = new NoteAdapter(Act_ClientAccount.this, clientAccount.getNotes());
         grid.setAdapter(adapter);
-        debtTotal.setText(String.format("%.2f",clientAccount.getTotal()));*/
+        debtTotal.setText(String.format("%.2f",clientAccount.getTotal()));
 
         // ----- updating debt of the user: ------
         client.setToPay(clientAccount.getTotal());
         db_client.updateClient(client);
         // ---------------------------------------
-    }
-
-
-    public Bundle BundleWithInfo(int position){
-        //Create the bundle
-        Bundle bundle = new Bundle();
-       /* int idDeft = clientAccount.getNote(position).getIdNote();*/
-        //Adding data to bundle
-        bundle.putString("NameClient", client.getName());
-        bundle.putString("putDeft", putDebt.getText().toString() );
-        bundle.putString("clientName", client.getName());
-      /*  bundle.putString("idNote", String.valueOf(idDeft));*/
-        return bundle;
-    }
-
-    public void gotoNoteDetails(View v){
-
-        // Pass information to the next view:
-        NextPage = new Intent(Act_ClientAccount.this, Act_DetailsNote.class);
-        //Add the bundle to the intent
-        NextPage.putExtras(BundleWithInfo(0));
-        //Fire that second activity
-        startActivity(NextPage);
     }
 
     public void gotoEditNote(View v, int position){
@@ -191,11 +169,40 @@ public class Act_ClientAccount extends AppCompatActivity {
         startActivity(NextPage);
     }
 
-    @Override
-    protected void onStop() {
-        db_client.close();
-        db_account.close();
-        super.onStop();
+    public void gotoNoteDetails(View v){
+
+        // Pass information to the next view:
+        NextPage = new Intent(Act_ClientAccount.this, Act_DetailsNote.class);
+        //Add the bundle to the intent
+        NextPage.putExtras(BundleWithInfo(0));
+        //Fire that second activity
+        startActivity(NextPage);
+    }
+
+    public Bundle BundleWithInfo(int position){
+        //Create the bundle
+        Bundle bundle = new Bundle();
+        int idDeft = clientAccount.getNote(position).getIdNote();
+        //Adding data to bundle
+        bundle.putString("clientName", client.getName());
+        bundle.putString("putDeft", putDebt.getText().toString() );
+        bundle.putString("idNote", String.valueOf(idDeft));
+        return bundle;
+    }
+
+    public void gotoEditClient(){
+
+        // Pass information to the next view:
+        NextPage = new Intent(Act_ClientAccount.this, Act_Edit_client.class);
+
+        //Create the bundle
+        Bundle bundle = new Bundle();
+        //Adding data to bundle
+        bundle.putString("clientName",client.getName());
+        //Add the bundle to the intent
+        NextPage.putExtras(bundle);
+        //Fire that second activity
+        startActivity(NextPage);
     }
 
 

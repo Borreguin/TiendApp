@@ -176,6 +176,15 @@ public class Client {
         return false;
     }
 
+    public int get_Account_toDelete(){
+        int ans = this.account + 1;
+        // Order to delete: 0 -> 1 , 1 -> 2 , 2 -> 0
+        if( ans > global.number_of_accounts){
+            ans = 0;
+        }
+        return ans;
+    }
+
     public void update_date(){
         this.date_update = Calendar.getInstance().getTime();
     }

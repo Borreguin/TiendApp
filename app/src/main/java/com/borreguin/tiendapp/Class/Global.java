@@ -2,16 +2,13 @@ package com.borreguin.tiendapp.Class;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v4.content.ContextCompat;
 import android.view.View;
-import android.widget.EditText;
 
-import com.borreguin.tiendapp.Act_ClientDetails;
+import com.borreguin.tiendapp.Act_ClientAccount;
 import com.borreguin.tiendapp.Act_DetailsNote;
 import com.borreguin.tiendapp.Act_NewClient;
 import com.borreguin.tiendapp.Act_SearchClient;
 import com.borreguin.tiendapp.MainActivity;
-import com.borreguin.tiendapp.R;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -50,7 +47,7 @@ public class Global {
     }
     public void goto_DetailsClient(View v){
         Context context = v.getContext();
-        Intent NextPage = new Intent(context, Act_ClientDetails.class);
+        Intent NextPage = new Intent(context, Act_ClientAccount.class);
         context.startActivity(NextPage);
     }
 

@@ -44,4 +44,7 @@
     <string name="add_description">Añadir descripción: </string>
     <string name="NoteDetails">Detalles de la nota</string>
     <string name="change_description">Cambiar descripción</string>
+    <string name="title_activity_act__edit__note">Editar nota - Detalles de la nota</string>
+    <string name="delete_note">Eliminar nota</string>
+    <string name="delete_note_dialog">Desea eliminar esta nota?</string>
 </resources>

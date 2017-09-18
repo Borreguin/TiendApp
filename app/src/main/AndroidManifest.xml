@@ -57,7 +57,7 @@
                 android:value="com.borreguin.tiendapp.Act_SearchClient" />
         </activity>
         <activity
-            android:name=".Act_ClientDetails"
+            android:name=".Act_ClientAccount"
             android:label="@string/title_activity_act__client_details"
             android:parentActivityName=".Act_SearchClient"
             android:theme="@style/AppTheme.NoActionBar">
@@ -68,12 +68,20 @@
         <activity
             android:name=".Act_DetailsNote"
             android:label="@string/NoteDetails"
-            android:parentActivityName=".Act_ClientDetails"
+            android:parentActivityName=".Act_ClientAccount"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.borreguin.tiendapp.Act_DetailsNote" />
 
+        </activity>
+        <activity
+            android:name=".Act_Edit_Note"
+            android:label="@string/title_activity_act__edit__note"
+            android:parentActivityName=".Act_ClientAccount">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.borreguin.tiendapp.Act_ClientAccount" />
         </activity>
     </application>
 

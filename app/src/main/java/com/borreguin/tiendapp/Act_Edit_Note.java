@@ -39,7 +39,7 @@ public class Act_Edit_Note extends AppCompatActivity {
     // Controls for layout:
     LinedEditText txt_description;
     EditText edt_date;
-    Button btn_plusNote, btn_minusNote, btn_deleteNote;
+    Button btn_plusNote, btn_minusNote, btn_deleteNote, btn_editNote;
     Intent NextPage;
     Calendar calendar = Calendar.getInstance();
     DatePickerDialog.OnDateSetListener date;
@@ -54,7 +54,8 @@ public class Act_Edit_Note extends AppCompatActivity {
 
     // Alert advise:
     AlertDialog.Builder builder;
-    
+
+
     // overwriting the back button
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -81,6 +82,7 @@ public class Act_Edit_Note extends AppCompatActivity {
             builder = new AlertDialog.Builder(context);
         }
 
+        // connecting layout and code
         clientName = (TextView) findViewById(R.id.clientName);
         txt_Deft = (TextView) findViewById(R.id.txt_Deft);
         txt_description = (LinedEditText)findViewById(R.id.txt_notes);
@@ -88,6 +90,12 @@ public class Act_Edit_Note extends AppCompatActivity {
         btn_plusNote = (Button) findViewById(R.id.btn_addDeft);
         btn_minusNote = (Button) findViewById(R.id.btn_lessDeft);
         btn_deleteNote = (Button) findViewById(R.id.btn_deleteNote);
+        btn_editNote = (Button) findViewById(R.id.btn_editNote);
+
+        // setting the date picker:
+        // setting a date picker:
+        edt_date= (EditText) findViewById(R.id.edt_date);
+        edt_date.setText(global.formatter2.format(Calendar.getInstance().getTime()));
 
         btn_minusNote.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -107,17 +115,24 @@ public class Act_Edit_Note extends AppCompatActivity {
                 create_alert();
             }
         });
+        btn_editNote.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                updateNote();
+            }
+        });
 
         // Getting information from the last view
         try {
             Bundle bundle = getIntent().getExtras();
             int idNote = Integer.parseInt(bundle.getString("idNote"));
             client = db_client.getClient(bundle.getString("clientName"));
-            /*note = db_account.getNote(client, idNote);*/
+            note = db_account.getNote(client, idNote);
 
             // Populating the layout
             clientName.setText(client.getName());
             txt_Deft.setText(String.format("%.2f", note.getValue()));
+            edt_date.setText(note.getDate_update_string_2());
             /*edt_date.setText(note.getDateUpdate());*/
             if(note.getDescription() == null){
                 txt_description.setText(global.getlines(8));
@@ -128,10 +143,7 @@ public class Act_Edit_Note extends AppCompatActivity {
         }catch (Exception e){
             e.printStackTrace();
         }
-        // setting the date picker:
-        // setting a date picker:
-        edt_date= (EditText) findViewById(R.id.edt_date);
-        edt_date.setText(global.formatter2.format(Calendar.getInstance().getTime()));
+
         date = new DatePickerDialog.OnDateSetListener() {
 
             @Override
@@ -192,7 +204,7 @@ public class Act_Edit_Note extends AppCompatActivity {
     }
 
     public void create_alert(){
-        /*
+
         builder.setTitle(getString(R.string.delete_note) + "? :")
                 .setMessage(getString(R.string.delete_note_dialog))
                 .setPositiveButton(R.string.delete_note, new DialogInterface.OnClickListener() {
@@ -212,15 +224,15 @@ public class Act_Edit_Note extends AppCompatActivity {
                     }
                 })
                 .setIcon(android.R.drawable.ic_dialog_alert)
-                .show();*/
+                .show();
     }
 
     public void updateNote(){
         note.setValue(Float.valueOf(txt_Deft.getText().toString()));
         note.setDescription(txt_description.getText().toString());
-        /*note.setDateUpdate(edt_date.getText().toString());*/
-        //db_account.updateNote(note);
-
+        note.setDateUpdate(edt_date.getText().toString());
+        db_account.updateNote(note);
+        goto_clientAccount();
     }
 
     @Override

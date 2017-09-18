@@ -10,4 +10,5 @@
     <color name="black">#000000</color>
     <color name="white">#ffff</color>
     <color name="note">#def1d906</color>
+    <color name="note_back">#f7f9e58f</color>
 </resources>

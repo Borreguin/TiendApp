@@ -12,7 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.borreguin.tiendapp.Act_ClientDetails;
+import com.borreguin.tiendapp.Act_ClientAccount;
 import com.borreguin.tiendapp.Act_Delete_Client;
 import com.borreguin.tiendapp.Act_Edit_client;
 import com.borreguin.tiendapp.Class.Global;
@@ -209,7 +209,7 @@ public class ClientListAdapter extends BaseExpandableListAdapter {
         Bundle bundle = new Bundle();
 
         //Adding data to bundle
-        bundle.putString("NameClient",childText);
+        bundle.putString("clientName",childText);
 
         //Add the bundle to the intent
         NextPage.putExtras(bundle);
@@ -227,7 +227,7 @@ public class ClientListAdapter extends BaseExpandableListAdapter {
         Bundle bundle = new Bundle();
 
         //Adding data to bundle
-        bundle.putString("NameClient",childText);
+        bundle.putString("clientName",childText);
 
         //Add the bundle to the intent
         NextPage.putExtras(bundle);
@@ -239,13 +239,13 @@ public class ClientListAdapter extends BaseExpandableListAdapter {
     public void gotoClientDetails(View v, String childText){
 
         // Pass information to the next view:
-        NextPage = new Intent(context, Act_ClientDetails.class);
+        NextPage = new Intent(context, Act_ClientAccount.class);
 
         //Create the bundle
         Bundle bundle = new Bundle();
 
         //Adding data to bundle
-        bundle.putString("NameClient",childText);
+        bundle.putString("clientName",childText);
 
         //Add the bundle to the intent
         NextPage.putExtras(bundle);

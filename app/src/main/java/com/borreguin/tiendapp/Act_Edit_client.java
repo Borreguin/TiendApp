@@ -6,7 +6,6 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -17,6 +16,8 @@ import android.widget.Toast;
 
 import com.borreguin.tiendapp.Class.Client;
 import com.borreguin.tiendapp.Class.Global;
+import com.borreguin.tiendapp.Class.Note;
+import com.borreguin.tiendapp.DB_Handlers.DBHandler_Accounts;
 import com.borreguin.tiendapp.DB_Handlers.DBHandler_Clients;
 
 import java.util.List;
@@ -34,8 +35,9 @@ public class Act_Edit_client extends AppCompatActivity {
 
     // variables for data
     private List<Client> clients;
-    private Client tempClient;
-    private DBHandler_Clients db = new DBHandler_Clients(this);
+    private Client tempClient, client;
+    private DBHandler_Clients db_client = new DBHandler_Clients(this);
+    private DBHandler_Accounts db_account = new DBHandler_Accounts(this);
     private Boolean uniqueClient = false;
 
 
@@ -53,7 +55,7 @@ public class Act_Edit_client extends AppCompatActivity {
         @Override
         public void afterTextChanged(Editable s) {
             // here: the validation of EditText
-            clients = db.getAllClients();
+            clients = db_client.getAllClients();
             uniqueClient = checkClient(getBaseContext(),
                     clients,clientName.getText().toString(),
                     clientName);
@@ -126,10 +128,10 @@ public class Act_Edit_client extends AppCompatActivity {
 
         // loading data from the last view
         Bundle bundle = getIntent().getExtras();
-        clientName.setText(bundle.getString("NameClient"));
+        clientName.setText(bundle.getString("clientName"));
         // loading data of temporal client
-        clients = db.getAllClients();
-        LoadClient(bundle.getString("NameClient"));
+        clients = db_client.getAllClients();
+        LoadClient(bundle.getString("clientName"));
 
         // checking client name
         clientName.addTextChangedListener(textWatcher);
@@ -138,7 +140,8 @@ public class Act_Edit_client extends AppCompatActivity {
 
 
     protected void LoadClient(String nameClient){
-        tempClient = db.getClient(nameClient);
+        tempClient = db_client.getClient(nameClient);
+        client = db_client.getClient(nameClient);
         clientName.setText(tempClient.getName());
         description.setText(tempClient.getDescription());
         clientDebt.setText(String.valueOf(tempClient.getToPay()));
@@ -163,8 +166,20 @@ public class Act_Edit_client extends AppCompatActivity {
 
         if(uniqueClient || edt_client.equals(aux_client) ) {
             updateTemporalClient();
-            db.updateClient(tempClient);
-            db.close();
+
+            if(!tempClient.getName().equals(client.getName())){
+                db_account.updateNameClient(client.getName(), tempClient.getName());
+            }
+
+            if(tempClient.getToPay() != client.getToPay()){
+                db_account.delete_Accounts(client,client.get_Account_toDelete());
+                tempClient.newAccount();
+                db_account.addNote(new Note(
+                        Float.valueOf(clientDebt.getText().toString()),
+                        "Nueva cuenta creada"),tempClient);
+            }
+            db_client.updateClient(tempClient);
+            db_client.close();
             global.goto_SearchClient(v);
         }else{
             Toast.makeText(Act_Edit_client.this,
@@ -183,7 +198,7 @@ public class Act_Edit_client extends AppCompatActivity {
 
     @Override
     protected void onStop() {
-        db.close();
+        db_client.close();
         super.onStop();
     }
 }

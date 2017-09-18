@@ -5,6 +5,7 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/note_back"
     android:orientation="vertical"
     tools:context="com.borreguin.tiendapp.Act_Edit_Note">
 
@@ -44,12 +45,13 @@
         android:layout_height="wrap_content">
 
         <Button
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:id="@+id/btn_addDeft"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:background="@android:drawable/ic_input_add"
-
             />
 
         <Button
@@ -57,14 +59,26 @@
             android:layout_height="60dp"
             android:layout_marginLeft="30dp"
             android:id="@+id/btn_lessDeft"
-            android:layout_toRightOf="@+id/btn_addDeft"
+            android:layout_toLeftOf="@+id/btn_addDeft"
             android:background="@drawable/minus"
             />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:text="@string/total"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:id="@+id/txt_tag"
+            android:textColor="@color/black"/>
 
         <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/btn_lessDeft"
+            android:layout_toRightOf="@id/txt_tag"
             android:id="@+id/txt_Deft"
             android:layout_marginTop="5sp"
             android:layout_marginLeft="20sp"

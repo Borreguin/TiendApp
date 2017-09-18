@@ -33,7 +33,6 @@
             android:textSize="21sp"
             android:paddingTop="2sp"
             android:text="@string/value"
-            android:clickable="true"
             android:textAppearance="?android:textAppearanceMedium"
             />
 

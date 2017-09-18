@@ -69,9 +69,9 @@ public class Act_Delete_Client extends AppCompatActivity {
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
         Bundle bundle = getIntent().getExtras();
-        clientName.setText(bundle.getString("NameClient"));
+        clientName.setText(bundle.getString("clientName"));
 
-        LoadClient(bundle.getString("NameClient"));
+        LoadClient(bundle.getString("clientName"));
 
         // Assigning functions for buttons ----------------------------
         btnDeleteClient.setOnClickListener(new View.OnClickListener() {
@@ -108,7 +108,7 @@ public class Act_Delete_Client extends AppCompatActivity {
 
     protected void deleteClient(View v){
         db.deleteClient(tempClient);
-        db_account.deleteAccounts(tempClient);
+        db_account.delete_All_Accounts(tempClient);
         global.goto_SearchClient(v);
     }
 
