@@ -31,10 +31,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        app_icon =  new App_icon("Anotar Fiado", R.drawable.icons8_add_notes, 0);
-        app_icon.Add_App_icon("Precios", R.drawable.icons8_us_dollar, 1);
-        app_icon.Add_App_icon("Buscar", R.drawable.icons8_find_user, 2);
-        app_icon.Add_App_icon("Clientes",R.drawable.icons8_add_user, 3);
+        app_icon = new App_icon();
+        //app_icon.Add_App_icon("Anotar Fiado", R.drawable.icons8_add_notes, 0);
+        //app_icon.Add_App_icon("Precios", R.drawable.icons8_us_dollar, 1);
+        app_icon.Add_App_icon("Buscar", R.drawable.icons8_find_user, 0);
+        app_icon.Add_App_icon("Clientes",R.drawable.icons8_add_user, 1);
 
         web = app_icon.getWeb();
         imageId = app_icon.getImageId();
@@ -66,19 +67,20 @@ public class MainActivity extends AppCompatActivity {
         view = new View(this);
         switch (activity_view){
             case 0:
+                global.goto_SearchClient(view);
                 break;
             case 1:
-                global.goto_DetailsNote(view);
+                global.goto_CreateClient(view);
                 break;
 
             // Search Clients
             case 2:
-                global.goto_SearchClient(view);
+                //global.goto_SearchClient(view);
                 break;
 
             // Create Clients
             case 3:
-                global.goto_CreateClient(view);
+                //global.goto_CreateClient(view);
                 break;
         }
 

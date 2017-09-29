@@ -2,12 +2,15 @@ package com.borreguin.tiendapp;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -25,12 +28,8 @@ import java.util.List;
 public class Act_Edit_client extends AppCompatActivity {
 
     // variables for layout
-    Button btnEditClient;
-    Button btnSearchClient;
-    Button btnCancel;
-    private EditText clientName;
-    private EditText description;
-    private EditText clientDebt;
+    Button btnEditClient, btnSearchClient, btnCancel;
+    private EditText clientName, description, clientDebt;
     private Switch swRelyClient;
 
     // variables for data
@@ -40,9 +39,19 @@ public class Act_Edit_client extends AppCompatActivity {
     private DBHandler_Accounts db_account = new DBHandler_Accounts(this);
     private Boolean uniqueClient = false;
 
-
     // variables and functions that are global
     private Global global = new Global();
+
+    // Navigation Button:
+    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
+            = new BottomNavigationView.OnNavigationItemSelectedListener() {
+
+        @Override
+        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            return global.switch_BottomNavigationView(item.getItemId(),getCurrentFocus());
+        }
+
+    };
 
     // Validating the edition of the client
     private TextWatcher textWatcher = new TextWatcher() {
@@ -81,23 +90,16 @@ public class Act_Edit_client extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
-        setContentView(R.layout.activity_act_edit_client);
-        //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        //setSupportActionBar(toolbar);
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        super.onCreate(savedInstanceState);
 
         // create new buttons and linking with the layout
         setContentView(R.layout.activity_act_edit_client);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        // navigation bottom
+        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
+        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+
         btnEditClient = (Button)findViewById(R.id.btnEditClient);
         btnSearchClient = (Button)findViewById(R.id.btnSearchClient);
         btnCancel = (Button)findViewById(R.id.btnMainActivity);
@@ -135,7 +137,6 @@ public class Act_Edit_client extends AppCompatActivity {
 
         // checking client name
         clientName.addTextChangedListener(textWatcher);
-        super.onCreate(savedInstanceState);
     }
 
 

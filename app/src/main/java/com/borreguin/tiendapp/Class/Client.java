@@ -185,6 +185,15 @@ public class Client {
         return ans;
     }
 
+    public int get_last_AccountID(){
+        int ans = this.account - 1;
+        // Order to delete: 0 -> 2 , 1 -> 0 , 2 -> 1
+        if( ans < 0){
+            ans = global.number_of_accounts;
+        }
+        return ans;
+    }
+
     public void update_date(){
         this.date_update = Calendar.getInstance().getTime();
     }

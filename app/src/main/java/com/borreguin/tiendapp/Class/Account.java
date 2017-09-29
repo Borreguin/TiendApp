@@ -37,7 +37,7 @@ public class Account {
     }
 
     public ArrayList<Note> getNotes() {
-        Collections.reverse(notes);
+        //Collections.reverse(notes);
         return notes;
     }
 
@@ -55,7 +55,10 @@ public class Account {
     }
 
     public Note getNote(int position){
-        return notes.get(position);
+        if(notes.size() !=0 )
+            return notes.get(position);
+        else
+            return new Note(0.f);
     }
 
 }

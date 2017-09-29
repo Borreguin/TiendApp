@@ -86,6 +86,7 @@
             android:textColor="@color/black"
             android:gravity="center_vertical|center"
             android:hint="@string/zero"
+            android:textColorHint="@color/gray"
             android:inputType="numberDecimal|numberSigned"
             />
     </RelativeLayout>
@@ -134,6 +135,7 @@
             android:textSize="22sp"
             android:scrollbars="vertical"
             android:hint="@string/Enter_here"
+            android:textColorHint="@color/gray"
             android:background="@drawable/background_note"
             android:inputType="textMultiLine|textAutoComplete"/>
 

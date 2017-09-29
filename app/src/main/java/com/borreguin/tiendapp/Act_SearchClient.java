@@ -4,6 +4,8 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.FloatingActionButton;
 
 import android.support.v4.view.MenuItemCompat;
@@ -16,6 +18,7 @@ import android.widget.ExpandableListView;
 import android.widget.SearchView;
 
 import com.borreguin.tiendapp.Class.Client;
+import com.borreguin.tiendapp.Class.Global;
 import com.borreguin.tiendapp.DB_Handlers.DBHandler_Clients;
 import com.borreguin.tiendapp.Utilities.ChildRow;
 import com.borreguin.tiendapp.Utilities.ClientListAdapter;
@@ -41,11 +44,23 @@ public class Act_SearchClient extends AppCompatActivity
     private ArrayList<ParentRow> showTheseParentList = new ArrayList<>();
     private MenuItem searchItem;
     // Manage of clients
-    private DBHandler_Clients db = new DBHandler_Clients(this);
+    private DBHandler_Clients db_client = new DBHandler_Clients(this);
 
     //Data of clients
     List<Client> clients;
     private SortedSet capLetters = new TreeSet<>();
+    Global global = new Global();
+
+    // Navigation Button:
+    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
+            = new BottomNavigationView.OnNavigationItemSelectedListener() {
+
+        @Override
+        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            return global.switch_BottomNavigationView(item.getItemId(),getCurrentFocus());
+        }
+
+    };
 
 
     @Override
@@ -94,7 +109,7 @@ public class Act_SearchClient extends AppCompatActivity
         int idx = 0;
 
         // Data from DataBase
-        clients = db.getAllClients();
+        clients = db_client.getAllClients();
         if(clients.size() ==0 ){return;}
 
         // Id = 0 is a client for testing
@@ -102,8 +117,7 @@ public class Act_SearchClient extends AppCompatActivity
 
         // Obtaining the capital letter for each name
         for(Client client : clients){
-            letter = client.getName().charAt(0);
-            capLetters.add(Character.toUpperCase(letter));
+            capLetters.add(getCapitalLetter(client.getName()));
         }
 
         for(Object capLetter : capLetters){
@@ -120,7 +134,7 @@ public class Act_SearchClient extends AppCompatActivity
         }
 
         for(Client client : clients){
-            letter = client.getName().charAt(0);
+            letter = getCapitalLetter(client.getName());
             idx =  map_KV.get(Character.toUpperCase(letter));
             childRows[idx].add(new ChildRow(
                     R.mipmap.generic_icon,      // Client icon
@@ -154,6 +168,16 @@ public class Act_SearchClient extends AppCompatActivity
         parentList.add(parentRow);
 */
 
+    }
+
+    protected Character getCapitalLetter(String clientName){
+        String [] aux = clientName.split(" ");
+        char letter;
+        if(aux.length > 1)
+            letter = aux[1].charAt(0);
+        else
+            letter = clientName.charAt(0);
+        return Character.toUpperCase(letter);
     }
 
     private void expandAll(){
@@ -227,6 +251,10 @@ public class Act_SearchClient extends AppCompatActivity
         return false;
     }
 
-
+    @Override
+    protected void onStop() {
+        db_client.close();
+        super.onStop();
+    }
 
 }

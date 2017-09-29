@@ -112,10 +112,19 @@
             android:layout_below="@+id/txt_desc"
             android:gravity="start"
             android:textSize="22sp"
+            android:layout_above="@+id/navigation"
             android:scrollbars="vertical"
             android:hint="@string/Enter_here"
             android:background="@drawable/background_note"
             android:inputType="textMultiLine|textAutoComplete"/>
+
+        <android.support.design.widget.BottomNavigationView
+            android:id="@+id/navigation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="?android:attr/windowBackground"
+            app:menu="@menu/navigation" />
 
 
     </RelativeLayout>

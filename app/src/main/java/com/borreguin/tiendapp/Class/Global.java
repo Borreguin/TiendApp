@@ -2,6 +2,7 @@ package com.borreguin.tiendapp.Class;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.View;
 
 import com.borreguin.tiendapp.Act_ClientAccount;
@@ -9,6 +10,7 @@ import com.borreguin.tiendapp.Act_DetailsNote;
 import com.borreguin.tiendapp.Act_NewClient;
 import com.borreguin.tiendapp.Act_SearchClient;
 import com.borreguin.tiendapp.MainActivity;
+import com.borreguin.tiendapp.R;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -93,5 +95,43 @@ public class Global {
             ans += "\n ";
         }
         return ans;
+    }
+
+
+    public void goto_clientAccount(Context context, Client client){
+        // Pass information to the next view:
+        Intent NextPage = new Intent(context, Act_ClientAccount.class);
+        //Add the bundle to the intent
+        NextPage.putExtras(BundleWithInfo(client));
+        //Fire that second activity
+        context.startActivity(NextPage);
+    }
+
+    public Bundle BundleWithInfo(Client client){
+        //Create the bundle
+        Bundle bundle = new Bundle();
+        //Adding data to bundle
+        bundle.putString("clientName", client.getName());
+        return bundle;
+    }
+
+    public Boolean switch_BottomNavigationView(int itemId, View v){
+
+        switch (itemId) {
+            case R.id.navigation_home:
+                goto_MainMenu(v);
+                return true;
+            case R.id.navigation_dashboard:
+                goto_MainMenu(v);
+                return true;
+            case R.id.navigation_notifications:
+                // TODO: Make notifications
+                //mTextMessage.setText(R.string.title_notifications);
+                return true;
+            case R.id.action_search:
+                goto_SearchClient(v);
+                return true;
+        }
+        return false;
     }
 }

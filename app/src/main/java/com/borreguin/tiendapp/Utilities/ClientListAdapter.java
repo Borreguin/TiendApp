@@ -18,6 +18,7 @@ import com.borreguin.tiendapp.Act_Edit_client;
 import com.borreguin.tiendapp.Class.Global;
 import com.borreguin.tiendapp.R;
 
+import java.io.IOError;
 import java.util.ArrayList;
 
 /**
@@ -32,7 +33,7 @@ public class ClientListAdapter extends BaseExpandableListAdapter {
     private ArrayList<ParentRow> parentRowList;
     private ArrayList<ParentRow> originalList;
     private Intent NextPage;
-    Global global = new Global();
+    private Global global = new Global();
 
     public ClientListAdapter(Context context
             , ArrayList<ParentRow> originalList) {
@@ -128,7 +129,9 @@ public class ClientListAdapter extends BaseExpandableListAdapter {
                         , childText.getText()
                         , Toast.LENGTH_SHORT).show();
 
-                gotoClientDetails(v,childText.getText().toString());
+                gotoClientDetails(childText.getText().toString());
+
+
             }
         });
 
@@ -141,7 +144,7 @@ public class ClientListAdapter extends BaseExpandableListAdapter {
                 Toast.makeText(finalConvertView.getContext()
                         , "Eliminar " + childText.getText()
                         , Toast.LENGTH_SHORT).show();
-                gotoDeleteClient(v, childText.getText().toString());
+                gotoDeleteClient(childText.getText().toString());
             }
 
         });
@@ -155,7 +158,7 @@ public class ClientListAdapter extends BaseExpandableListAdapter {
                 Toast.makeText(finalConvertView.getContext()
                         , "Editar " + childText.getText()
                         , Toast.LENGTH_SHORT).show();
-                gotoEditClient(v, childText.getText().toString());
+                gotoEditClient(childText.getText().toString());
             }
 
         });
@@ -200,59 +203,44 @@ public class ClientListAdapter extends BaseExpandableListAdapter {
         notifyDataSetChanged();
     }
 
-    public void gotoDeleteClient(View v, String childText){
+    private void gotoDeleteClient(String childText){
 
         // Pass information to the next view:
         NextPage = new Intent(context, Act_Delete_Client.class);
-
-        //Create the bundle
-        Bundle bundle = new Bundle();
-
-        //Adding data to bundle
-        bundle.putString("clientName",childText);
-
-        //Add the bundle to the intent
-        NextPage.putExtras(bundle);
-
-        //Fire that second activity
-        context.startActivity(NextPage);
+        NextPage.putExtras(SaveInBundle(childText));
+        context.startActivity(NextPage); //Fire that second activity
     }
 
-    public void gotoEditClient(View v, String childText){
+    private void gotoEditClient(String childText){
 
         // Pass information to the next view:
         NextPage = new Intent(context, Act_Edit_client.class);
-
-        //Create the bundle
-        Bundle bundle = new Bundle();
-
-        //Adding data to bundle
-        bundle.putString("clientName",childText);
-
-        //Add the bundle to the intent
-        NextPage.putExtras(bundle);
-
-        //Fire that second activity
-        context.startActivity(NextPage);
+        NextPage.putExtras(SaveInBundle(childText));
+        context.startActivity(NextPage); //Fire that second activity
     }
 
-    public void gotoClientDetails(View v, String childText){
 
-        // Pass information to the next view:
-        NextPage = new Intent(context, Act_ClientAccount.class);
+    private void gotoClientDetails(String childText){
 
-        //Create the bundle
-        Bundle bundle = new Bundle();
+        try {
+            // Pass information to the next view:
+            NextPage = new Intent(context, Act_ClientAccount.class);
+            NextPage.putExtras(SaveInBundle(childText));
+            context.startActivity(NextPage); //Fire that second activity
+        }catch (IOError e){
+            e.printStackTrace();
+        }catch (UnknownError e1){
+            e1.printStackTrace();
+        }
 
-        //Adding data to bundle
-        bundle.putString("clientName",childText);
-
-        //Add the bundle to the intent
-        NextPage.putExtras(bundle);
-
-        //Fire that second activity
-        context.startActivity(NextPage);
     }
 
+    private Bundle SaveInBundle(String childText){
+        //Create the bundle
+        Bundle bundle = new Bundle();
+        //Adding data to bundle
+        bundle.putString("clientName",childText);
+        return bundle;
+    }
 
 }

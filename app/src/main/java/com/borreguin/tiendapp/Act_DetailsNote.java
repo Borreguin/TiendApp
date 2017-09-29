@@ -2,6 +2,8 @@ package com.borreguin.tiendapp;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -52,6 +54,17 @@ public class Act_DetailsNote extends AppCompatActivity {
         return true;
     }
 
+    // Navigation Button:
+    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
+            = new BottomNavigationView.OnNavigationItemSelectedListener() {
+
+        @Override
+        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            return global.switch_BottomNavigationView(item.getItemId(),getCurrentFocus());
+        }
+
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -59,6 +72,11 @@ public class Act_DetailsNote extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        // Navigation button
+        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
+        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+
 
         clientName = (TextView) findViewById(R.id.clientName);
         putDebt = (EditText) findViewById(R.id.txt_enterDeft);

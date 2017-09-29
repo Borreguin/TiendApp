@@ -17,25 +17,38 @@
             android:layout_height="fill_parent"
             android:orientation="vertical">
 
-
-            <TextView
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/name"
-                android:id="@id/clientName"
-                android:textSize="23dp"
-                android:textColor="@color/title"
-                android:textStyle="bold|italic"
-                android:layout_marginLeft="@dimen/activity_horizontal_margin"/>
+                android:layout_height="wrap_content">
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/description"
-                android:id="@id/description"
-                android:textSize="21dp"
-                android:textColor="@color/black"
-                android:layout_marginLeft="@dimen/activity_horizontal_margin"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/name"
+                    android:id="@id/clientName"
+                    android:textSize="23dp"
+                    android:textColor="@color/title"
+                    android:textStyle="bold|italic"
+                    android:layout_marginLeft="@dimen/activity_horizontal_margin"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/description"
+                    android:id="@id/description"
+                    android:textSize="21dp"
+                    android:layout_below="@id/clientName"
+                    android:textColor="@color/black"
+                    android:layout_marginLeft="@dimen/activity_horizontal_margin"/>
+
+                <Button
+                    android:layout_width="55dp"
+                    android:layout_height="55dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="35dp"
+                    android:background="@drawable/past"
+                    android:id="@+id/btn_pastDetails"/>
+            </RelativeLayout>
 
 
             <RelativeLayout
@@ -71,6 +84,7 @@
                     android:textColor="@color/black"
                     android:gravity="center_vertical|center"
                     android:hint="@string/zero"
+                    android:textColorHint="@color/gray"
                     android:inputType="numberDecimal|numberSigned"
                     />
                 <Button
@@ -108,6 +122,8 @@
                     android:textColor="@color/black"
                     android:layout_marginLeft="@dimen/activity_vertical_margin"
                     android:layout_toRightOf="@+id/total_tag"/>
+
+
 
                 <GridView
                     android:numColumns="auto_fit"

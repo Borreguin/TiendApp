@@ -141,13 +141,7 @@
                 android:background="@android:color/darker_gray"
                 android:id="@+id/btnMainActivity" />
 
-            <android.support.design.widget.BottomNavigationView
-                android:id="@+id/navigation"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                android:background="?android:attr/windowBackground"
-                app:menu="@menu/navigation" />
+
         </LinearLayout>
 
     </ScrollView>

@@ -6,6 +6,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
@@ -61,18 +63,29 @@ public class Act_Edit_Note extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                goto_clientAccount();
+                global.goto_clientAccount(Act_Edit_Note.this,client);
                 break;
         }
         return true;
     }
 
+    // Navigation Button:
+    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
+            = new BottomNavigationView.OnNavigationItemSelectedListener() {
+
+        @Override
+        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            return global.switch_BottomNavigationView(item.getItemId(),getCurrentFocus());
+        }
+
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.activity_act_edit_note);
 
-        //BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
-        //navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
+        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
         // connecting with layout:
         context = Act_Edit_Note.this;
@@ -176,23 +189,6 @@ public class Act_Edit_Note extends AppCompatActivity {
         edt_date.setText(formatter.format(calendar.getTime()));
     }
 
-    public Bundle BundleWithInfo(){
-        //Create the bundle
-        Bundle bundle = new Bundle();
-        //Adding data to bundle
-        bundle.putString("clientName", client.getName());
-        return bundle;
-    }
-
-    public void goto_clientAccount(){
-        // Pass information to the next view:
-        NextPage = new Intent(Act_Edit_Note.this, Act_ClientAccount.class);
-        //Add the bundle to the intent
-        NextPage.putExtras(BundleWithInfo());
-        //Fire that second activity
-        startActivity(NextPage);
-    }
-
     public void plus_value(){
         float value = abs(global.parseStringToFloat(txt_Deft.getText().toString()));
         txt_Deft.setText(String.format("%.2f",value));
@@ -214,7 +210,7 @@ public class Act_Edit_Note extends AppCompatActivity {
                             Toast.makeText(context, getString(R.string.delete_note) + " "
                                     + getString(R.string.Successfully),
                                     Toast.LENGTH_LONG).show();
-                            goto_clientAccount();
+                            global.goto_clientAccount(Act_Edit_Note.this,client);
                         }
                     }
                 })
@@ -232,7 +228,7 @@ public class Act_Edit_Note extends AppCompatActivity {
         note.setDescription(txt_description.getText().toString());
         note.setDateUpdate(edt_date.getText().toString());
         db_account.updateNote(note);
-        goto_clientAccount();
+        global.goto_clientAccount(Act_Edit_Note.this,client);
     }
 
     @Override

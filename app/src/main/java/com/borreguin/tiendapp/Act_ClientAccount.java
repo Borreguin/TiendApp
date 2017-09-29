@@ -2,10 +2,12 @@ package com.borreguin.tiendapp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -37,7 +39,7 @@ public class Act_ClientAccount extends AppCompatActivity {
     GridView grid;
     TextView clientName, description, debtTotal;
     EditText putDebt;
-    Button btn_plusNote, btn_minusNote, btn_addDetails;
+    Button btn_plusNote, btn_minusNote, btn_addDetails, btn_pastDetails;
     View view;
     Client client;
     Intent NextPage;
@@ -45,26 +47,37 @@ public class Act_ClientAccount extends AppCompatActivity {
     // global variables and functions
     Global global = new Global();
 
+    // Navigation Button:
+    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
+            = new BottomNavigationView.OnNavigationItemSelectedListener() {
+
+        @Override
+        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            return global.switch_BottomNavigationView(item.getItemId(),getCurrentFocus());
+        }
+
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_act_client_details);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        // floating button
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                //        .setAction("Action", null).show();
-
-                gotoEditClient();
+                gotoNewAccount();
             }
         });
-
-
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        // Navigation button
+        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
+        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
         // connecting members of activity layout
         clientName =(TextView) findViewById(R.id.clientName);
@@ -74,6 +87,7 @@ public class Act_ClientAccount extends AppCompatActivity {
         btn_plusNote = (Button) findViewById(R.id.btn_addDeft);
         btn_minusNote = (Button) findViewById(R.id.btn_lessDeft);
         btn_addDetails = (Button) findViewById(R.id.btn_addDetails);
+        btn_pastDetails = (Button) findViewById(R.id.btn_pastDetails);
         grid=(GridView)findViewById(R.id.grid_item_values);
 
         // setting functions for each button
@@ -102,6 +116,7 @@ public class Act_ClientAccount extends AppCompatActivity {
             });
         }
 
+        // adding a click listener to each child
         grid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
@@ -109,11 +124,16 @@ public class Act_ClientAccount extends AppCompatActivity {
                 Toast.makeText(Act_ClientAccount.this, "Ingresando a "
                                 + clientAccount.getNote(position).getValue(),
                         Toast.LENGTH_LONG).show();
-                gotoEditNote(view, position);
+                gotoEditNote(position);
             }
         });
 
-        super.onCreate(savedInstanceState);
+        btn_pastDetails.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                gotoDetails_all_accounts();
+            }
+        });
 
         // test creates some notes:
         // db_account.addNote(new Note(0,12.3f,"Test 1"), client);
@@ -138,13 +158,19 @@ public class Act_ClientAccount extends AppCompatActivity {
 
     private void plusNoteToClient(){
         float value = abs(global.parseStringToFloat(putDebt.getText().toString()));
-        db_account.addNote(new Note(value), client);
-        update_grid();
+        if(value > 0.00f){
+            db_account.addNote(new Note(value), client);
+            putDebt.setText("");
+            update_grid();
+        }
     }
     private void minusNoteToClient(){
         float value = -abs(global.parseStringToFloat(putDebt.getText().toString()));
-        db_account.addNote(new Note(value), client);
-        update_grid();
+        if (value < 0.00f){
+            db_account.addNote(new Note(value), client);
+            putDebt.setText("");
+            update_grid();
+        }
     }
 
     private void update_grid(){
@@ -159,7 +185,7 @@ public class Act_ClientAccount extends AppCompatActivity {
         // ---------------------------------------
     }
 
-    public void gotoEditNote(View v, int position){
+    public void gotoEditNote(int position){
 
         // Pass information to the next view:
         NextPage = new Intent(Act_ClientAccount.this, Act_Edit_Note.class);
@@ -190,20 +216,28 @@ public class Act_ClientAccount extends AppCompatActivity {
         return bundle;
     }
 
-    public void gotoEditClient(){
-
+    public void gotoDetails_all_accounts(){
         // Pass information to the next view:
-        NextPage = new Intent(Act_ClientAccount.this, Act_Edit_client.class);
-
-        //Create the bundle
-        Bundle bundle = new Bundle();
-        //Adding data to bundle
-        bundle.putString("clientName",client.getName());
+        NextPage = new Intent(Act_ClientAccount.this, Act_Details_all_accounts.class);
         //Add the bundle to the intent
-        NextPage.putExtras(bundle);
+        NextPage.putExtras(BundleWithInfo(0));
         //Fire that second activity
         startActivity(NextPage);
     }
 
+    public void gotoNewAccount(){
+        // Pass information to the next view:
+        NextPage = new Intent(Act_ClientAccount.this, Act_New_Account.class);
+        //Add the bundle to the intent
+        NextPage.putExtras(BundleWithInfo(0));
+        //Fire that second activity
+        startActivity(NextPage);
+    }
 
+    @Override
+    protected void onStop() {
+        db_client.close();
+        db_account.close();
+        super.onStop();
+    }
 }

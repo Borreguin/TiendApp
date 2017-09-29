@@ -31,29 +31,10 @@ public class Act_Delete_Client extends AppCompatActivity {
     // Global functions and variables
     Global global = new Global();
 
-    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
-            = new BottomNavigationView.OnNavigationItemSelectedListener() {
-
-        @Override
-        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            switch (item.getItemId()) {
-                case R.id.navigation_home:
-                    mTextMessage.setText(R.string.title_home);
-                    return true;
-                case R.id.navigation_dashboard:
-                    mTextMessage.setText(R.string.title_dashboard);
-                    return true;
-                case R.id.navigation_notifications:
-                    mTextMessage.setText(R.string.title_notifications);
-                    return true;
-            }
-            return false;
-        }
-
-    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_act_delete_client);
         btnDeleteClient = (Button)findViewById(R.id.btnDeleteClient);
@@ -64,14 +45,7 @@ public class Act_Delete_Client extends AppCompatActivity {
         description = (TextView)findViewById(R.id.clientDescription);
         clientDebt = (TextView)findViewById(R.id.debt);
 
-        mTextMessage = (TextView) findViewById(R.id.message);
-        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
-        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-
-        Bundle bundle = getIntent().getExtras();
-        clientName.setText(bundle.getString("clientName"));
-
-        LoadClient(bundle.getString("clientName"));
+        LoadClient();
 
         // Assigning functions for buttons ----------------------------
         btnDeleteClient.setOnClickListener(new View.OnClickListener() {
@@ -81,7 +55,6 @@ public class Act_Delete_Client extends AppCompatActivity {
                 global.goto_SearchClient(v);
             }
         });
-
         btnSearchClient.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -96,11 +69,13 @@ public class Act_Delete_Client extends AppCompatActivity {
         });
 
         //--------------------------------------------------------------
-        super.onCreate(savedInstanceState);
+
     }
 
-    protected void LoadClient(String nameClient){
-        tempClient = db.getClient(nameClient);
+    protected void LoadClient(){
+
+        Bundle bundle = getIntent().getExtras();
+        tempClient = db.getClient(bundle.getString("clientName"));
         clientName.setText(tempClient.getName());
         description.setText(tempClient.getDescription());
         clientDebt.setText(String.valueOf(tempClient.getToPay()));

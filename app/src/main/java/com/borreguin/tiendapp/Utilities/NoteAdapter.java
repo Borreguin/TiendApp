@@ -2,6 +2,7 @@ package com.borreguin.tiendapp.Utilities;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -69,7 +70,9 @@ public class NoteAdapter extends BaseAdapter {
         }else{
             sign.setText("-");
         }
-
+        if(position == getCount()-1){
+            childValue.setTextColor(ContextCompat.getColor(context, R.color.colorPrimary));
+        }
 
         final View finalConvertView = convertView;
 

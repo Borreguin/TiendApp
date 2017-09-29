@@ -163,6 +163,45 @@ public class DBHandler_Accounts extends SQLiteOpenHelper {
         return clientAccount;
     }
 
+    // Getting one client using the name of the client
+    public Account getClientAccount(Client client, int IdAccount) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Account clientAccount = new Account();
+
+        Cursor cursor = db.query(TABLE_NOTES, new String[]{KEY_ID_NOTE,
+                        KEY_CLIENT_NAME, KEY_NOTE_DESCRIPTION, KEY_ACCOUNT,
+                        KEY_VALUE_DEFT, KEY_DATE_UPDATE},
+                KEY_ACCOUNT + "=?" + " AND " + KEY_CLIENT_NAME + "=?",
+                new String[]{ String.valueOf(IdAccount), client.getName()},
+                null, null, null, null);
+
+        if (cursor == null || cursor.getCount() == 0)
+            return clientAccount;
+
+        try {
+
+            if (cursor.moveToFirst()) {
+                do {
+                    clientAccount.addNote(new Note(
+                                    Integer.parseInt(cursor.getString(Idx_id_0)),
+                                    Float.parseFloat(cursor.getString(Idx_value_deft_4)),
+                                    cursor.getString(Idx_dscrp_2),
+                                    cursor.getString(Idx_date_update_5)
+                            )
+                    );
+                } while (cursor.moveToNext());
+            }
+            clientAccount.setIdAccount(client.getAccount());
+            cursor.close();
+            return clientAccount;
+        }catch (SQLException e) {
+            e.printStackTrace();
+        }
+        cursor.close();
+        return clientAccount;
+    }
+
+
     public Boolean delete_Accounts(Client client, int IdAccount){
         SQLiteDatabase db = this.getReadableDatabase();
         try {

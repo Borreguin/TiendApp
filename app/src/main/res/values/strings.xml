@@ -47,4 +47,10 @@
     <string name="title_activity_act__edit__note">Editar nota - Detalles de la nota</string>
     <string name="delete_note">Eliminar nota</string>
     <string name="delete_note_dialog">Desea eliminar esta nota?</string>
+    <string name="current_account">Cuenta actual</string>
+    <string name="last_account">Anterior cuenta: </string>
+    <string name="accept">Aceptar</string>
+    <string name="title_activity_act__details_all">Detalles de cuenta anterior</string>
+    <string name="title_activity_act_create_new_account">Crear Nueva cuenta</string>
+    <string name="title_activity_act__new__account">Empezar Nueva Cuenta</string>
 </resources>
